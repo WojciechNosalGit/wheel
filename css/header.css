@@ -1,0 +1,25 @@
+header {
+  background-color: var(--blue);
+  color: white;
+  height: 60px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.4rem;
+}
+
+nav {
+  display: flex;
+  font-size: 0.8rem;
+  width: 25%;
+  justify-content: space-around;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}

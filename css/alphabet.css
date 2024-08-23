@@ -1,11 +1,14 @@
 #alphabet {
+  display: block;
   width: 800px;
   margin: 0 auto;
+  padding-left: 60px;
 }
 
 #alphabet p {
   display: flex;
   width: 15%;
+  font-size: 0.9rem;
 }
 
 .alphabet-vowel {
@@ -25,7 +28,7 @@
   flex-wrap: wrap;
   align-content: space-around;
   height: 100px;
-  width: 85%;
+  width: 580px;
 }
 
 .alphabet_vowel-letter,

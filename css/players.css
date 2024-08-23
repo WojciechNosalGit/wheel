@@ -1,6 +1,6 @@
 #players {
+  display: none;
   width: 800px;
-  display: flex;
   flex-direction: column;
   margin: 20px auto;
 }
@@ -47,25 +47,4 @@
   justify-content: space-around;
   height: 120px;
   padding: 20px 0;
-}
-
-.btn {
-  -webkit-appearance: none;
-  border-radius: 5px;
-  text-align: center;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-  color: white;
-  background-color: rgb(54, 219, 90);
-  width: 180px;
-  height: 80px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  font-size: 1rem;
-}
-
-.btn:hover {
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 15px 25px,
-    rgba(0, 0, 0, 0.23) 0px 10px 10px;
-  transition: all 0.3s;
 }

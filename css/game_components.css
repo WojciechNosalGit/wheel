@@ -1,0 +1,15 @@
+#game_components {
+  height: 20px;
+}
+
+button#start,
+button#add_players {
+  position: absolute;
+  top: 360px;
+  justify-content: center;
+  align-items: center;
+}
+
+button#add_players {
+  display: none;
+}
