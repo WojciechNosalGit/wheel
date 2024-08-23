@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Koło Fortuny Online</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/password_area.css" />
+    <link rel="stylesheet" href="css/alphabet.css" />
+    <link rel="stylesheet" href="css/players.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Koło Fortuny</h1>
+      <nav>
+        <a href="#">Start</a>
+        <a href="#">Zasady</a>
+        <a href="#">Ranking</a>
+        <a href="#">Ustawienia</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="game">
+        <section id="password_area">
+          <!-- <div class="password_area-letter active">A</div> -->
+        </section>
+        <section id="alphabet">
+          <div class="alphabet-vowel">
+            <p>samogłoski:</p>
+            <div class="alphabet_vowel-letter">A</div>
+            <div class="alphabet_vowel-letter">Ą</div>
+            <div class="alphabet_vowel-letter">E</div>
+            <div class="alphabet_vowel-letter">Ę</div>
+            <div class="alphabet_vowel-letter">I</div>
+            <div class="alphabet_vowel-letter">O</div>
+            <div class="alphabet_vowel-letter">U</div>
+            <div class="alphabet_vowel-letter">Ó</div>
+            <div class="alphabet_vowel-letter">Y</div>
+          </div>
+          <div class="alphabet_consonant">
+            <p>spółgłoski:</p>
+            <div class="alphabet_consonant-container">
+              <div class="alphabet_consonant-letter">B</div>
+              <div class="alphabet_consonant-letter">C</div>
+              <div class="alphabet_consonant-letter">Ć</div>
+              <div class="alphabet_consonant-letter">D</div>
+              <div class="alphabet_consonant-letter">F</div>
+              <div class="alphabet_consonant-letter">G</div>
+              <div class="alphabet_consonant-letter">H</div>
+              <div class="alphabet_consonant-letter">J</div>
+              <div class="alphabet_consonant-letter">K</div>
+              <div class="alphabet_consonant-letter">L</div>
+              <div class="alphabet_consonant-letter">Ł</div>
+              <div class="alphabet_consonant-letter">M</div>
+              <div class="alphabet_consonant-letter">N</div>
+              <div class="alphabet_consonant-letter">Ń</div>
+              <div class="alphabet_consonant-letter">P</div>
+              <div class="alphabet_consonant-letter">Q</div>
+              <div class="alphabet_consonant-letter">R</div>
+              <div class="alphabet_consonant-letter">S</div>
+              <div class="alphabet_consonant-letter">Ś</div>
+              <div class="alphabet_consonant-letter">T</div>
+              <div class="alphabet_consonant-letter">V</div>
+              <div class="alphabet_consonant-letter">W</div>
+              <div class="alphabet_consonant-letter">X</div>
+              <div class="alphabet_consonant-letter">Z</div>
+              <div class="alphabet_consonant-letter">Ź</div>
+              <div class="alphabet_consonant-letter">Ż</div>
+            </div>
+          </div>
+        </section>
+        <section id="players">
+          <div class="players_container">
+            <div class="player active">
+              <span class="player-name">Wojtek</span>
+            </div>
+            <div class="player">
+              <span class="player-name">Kinia</span>
+            </div>
+          </div>
+          <div class="stats">
+            <span class="stats-round">Runda 5</span>
+            <span class="stats-points">1960 pkt</span>
+            <span class="stats-current_bonus">Aktualny bonus: X100</span>
+            <div class="bottons-container">
+              <button class="btn btn-spin">Zakręć kołem</button>
+              <button class="btn btn-buy_vowel">Kup samogłoskę</button>
+              <button class="btn btn-guess_password">Odgaduję hasło</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Koło Fortuny</p>
+    </footer>
+    <script src="js/Draw.js"></script>
+    <script src="js/Password.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/Result.js"></script>
+    <script src="js/Stats.js"></script>
+    <script src="js/Game.js"></script>
+  </body>
+</html>

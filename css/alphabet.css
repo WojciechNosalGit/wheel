@@ -1,0 +1,51 @@
+#alphabet {
+  width: 800px;
+  margin: 0 auto;
+}
+
+#alphabet p {
+  display: flex;
+  width: 15%;
+}
+
+.alphabet-vowel {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.alphabet_consonant {
+  display: flex;
+  align-items: center;
+}
+
+.alphabet_consonant-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  height: 100px;
+  width: 85%;
+}
+
+.alphabet_vowel-letter,
+.alphabet_consonant-letter {
+  display: flex;
+  margin-left: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  font-weight: 800;
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
+.alphabet_vowel-letter:hover,
+.alphabet_consonant-letter:hover {
+  background-color: yellow;
+  cursor: pointer;
+  transition: all 0.3s;
+}
