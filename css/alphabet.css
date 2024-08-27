@@ -3,6 +3,7 @@
   width: 800px;
   margin: 0 auto;
   padding-left: 60px;
+  color: var(--black);
 }
 
 #alphabet p {
@@ -41,14 +42,26 @@
   font-size: 1.4rem;
   justify-content: center;
   align-items: center;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--grey);
   font-weight: 800;
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  opacity: 0.6;
 }
 
-.alphabet_vowel-letter:hover,
-.alphabet_consonant-letter:hover {
-  background-color: yellow;
+.alphabet_vowel-letter.active,
+.alphabet_consonant-letter.active {
+  background-color: var(--white);
+  opacity: 1;
+}
+
+.alphabet_vowel-letter.active:hover,
+.alphabet_consonant-letter.active:hover {
+  background-color: var(--yellow);
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.alphabet_vowel-letter.clicked,
+.alphabet_consonant-letter.clicked {
+  background-color: transparent;
+  opacity: 1;
 }

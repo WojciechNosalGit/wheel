@@ -18,14 +18,12 @@ class Draw {
 
   drawEmptyPasswordArea() {
     const passwordAreaContainer = document.querySelector(
-      ".password_area-container"
+      ".password_area-letters_wraper"
     );
     this.#passwordArea = []; //reset
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < 20; j++) {
         const div = this.#createElement("div", "password_area-letter");
-        // div.dataset.x = i;
-        // div.dataset.y = j;
         this.#passwordArea.push(div);
       }
     }
@@ -37,10 +35,10 @@ class Draw {
   }
 
   displayHiddenPassword(password) {
-    console.log(password);
     this.#password.text = password.text;
     this.#password.category = password.category;
     const categoryArea = document.querySelector(".password_area-category");
+    categoryArea.classList.remove("display-none");
     categoryArea.textContent = `Kategoria: ${password.category}`;
 
     const words = this.#password.text.split(" ");
@@ -88,8 +86,6 @@ class Draw {
   }
 
   displayAddPlayer(labelString = "Podaj imiona graczy", className = "active") {
-    // const lettersArea = [...document.querySelectorAll(".password_area-letter")];
-
     const label = (labelString) => {
       let num = 0;
       [...labelString].forEach((el) => {
@@ -103,14 +99,17 @@ class Draw {
     const createInput = () => {
       let start = 20;
       const drawInputArea = () => {
-        for (let i = start; i < start + 13; i++) {
-          const input = this.#createElement("input", "input", i - start);
-          input.setAttribute("type", "text");
-          input.setAttribute("maxlength", 1);
-          const squere = this.#passwordArea[i];
+        for (let j = 1; j <= 4; j++) {
+          for (let i = start * j; i < start * j + 13; i++) {
+            const input = this.#createElement("input", "input", i);
+            input.setAttribute("type", "text");
+            input.setAttribute("maxlength", 1);
+            input.dataset.row = j;
+            const squere = this.#passwordArea[i];
 
-          squere.classList.add(className);
-          squere.appendChild(input);
+            squere.classList.add(className);
+            squere.appendChild(input);
+          }
         }
       };
       drawInputArea();
@@ -129,7 +128,9 @@ class Draw {
 
               inputs[i - 1].value = "";
               inputs[i - 1].focus();
-            } else if (e.keyCode !== 8 && e.keyCode !== 13) {
+            } else if (e.keyCode === 13) {
+              console.log(inputs[i]);
+            } else if (e.keyCode !== 8) {
               //otcher keys except backspace and enter
               inputs[i + 1].focus();
             }
@@ -141,22 +142,49 @@ class Draw {
     createInput();
   }
 
-  getPlayersNames() {
-    const inputs = [
-      ...document.querySelectorAll(".password_area-letter input"),
-    ];
+  getPlayersNames(row) {
     const names = [];
 
-    const getNames = () => {
+    const getNames = (row) => {
+      const input = document.querySelectorAll(`input[data-row="${row}"]`);
       const name = [];
 
-      inputs.forEach((item) => {
+      input.forEach((item) => {
         name.push(item.value);
       });
-
-      names.push(name.join("").trim().toUpperCase());
+      if (name.join("").trim().toUpperCase()) {
+        names.push(name.join("").trim().toUpperCase());
+      }
     };
-    getNames();
+    for (let i = 1; i < 5; i++) {
+      getNames(i);
+    }
+    if (names.length === 0) names.push("Ukryty talent");
     return names;
+  }
+
+  // ### add onclick on enter
+
+  dispalyPlayersArea(names) {
+    const playresNamesArea = document.querySelector(".players_container");
+
+    names.forEach((name) => {
+      const playerName = name.name;
+      const namesElement = this.#createElement("div", "player");
+      namesElement.textContent = playerName;
+      playresNamesArea.appendChild(namesElement);
+    });
+  }
+
+  displayPoints(points) {
+    const pointsArea = document.querySelector(".stats-points");
+
+    pointsArea.textContent = points + " punktów";
+  }
+
+  displayBonus(bonus) {
+    const bonusArea = document.querySelector(".stats-current_bonus");
+    bonusArea.textContent =
+      bonus === 0 ? "Zakręć kołem" : "Aktywny bonus: " + bonus;
   }
 }

@@ -2,18 +2,25 @@ class Game {
   constructor() {
     this.draw = new Draw();
     this.password = new Password();
+    this.wheel = new Wheel();
 
     this.alfpabet = this.getAlphabet();
+
     this.currentPassword = "";
+    this.currentBonus = 0;
+    this.activePlayer = 0;
+    this.canClickLetter = false;
+
     this.startBtn = document.getElementById("start");
-    this.addPlayerBtn = document.getElementById("add_player");
     this.addPlayersBtn = document.querySelector("#add_players");
+    this.spinWheelBtn = document.querySelector(".btn-spin");
+
     this.playerNameArea = document.querySelector(".player_name-area");
     this.players = [];
     this.displayElementClass = "display";
     this.hideElementClass = "display-none";
 
-    this.draw.drawEmptyPasswordArea();
+    this.draw.drawEmptyPasswordArea(); // random password in future
 
     this.initEvents();
   }
@@ -25,11 +32,16 @@ class Game {
       });
     });
 
+    // START GAME
     this.startBtn.addEventListener("click", (e) => this.createNewPlayerArea(e));
 
+    // ADD PLAYERS FROM INPUT
     this.addPlayersBtn.addEventListener("click", (e) => {
       this.startGame(e);
     });
+
+    // SPIN
+    this.spinWheelBtn.addEventListener("click", () => this.spinWheel());
   }
 
   startGame(e) {
@@ -37,13 +49,19 @@ class Game {
     document.querySelector("#players").classList.add(this.displayElementClass);
     document.querySelector("#alphabet").classList.remove(this.hideElementClass);
 
-    this.players = this.draw.getPlayersNames();
-    this.players.map((item) => {
-      const player = new Player(item);
-      this.players.push(player);
+    const players = this.draw.getPlayersNames();
+    players.forEach((playerName) => {
+      this.players.push(new Player(playerName));
     });
 
     this.render();
+  }
+
+  spinWheel() {
+    const bonus = this.wheel.getOption();
+    this.currentBonus = bonus;
+    this.draw.displayBonus(this.currentBonus);
+    this.canClickLetter = true;
   }
 
   getAlphabet() {
@@ -61,6 +79,7 @@ class Game {
 
   checkLetterInPass(e) {
     const letter = e.target.textContent;
+    if (!this.canClickLetter) return;
 
     if (
       this.currentPassword.text.toUpperCase().includes(letter.toUpperCase())
@@ -87,9 +106,13 @@ class Game {
   }
 
   async render() {
+    const activePlayer = this.players[this.activePlayer];
+
     this.draw.drawEmptyPasswordArea();
     this.currentPassword = await this.password.password();
     this.draw.displayHiddenPassword(this.currentPassword);
+    this.draw.dispalyPlayersArea(this.players);
+    this.draw.displayPoints(activePlayer.points);
   }
 }
 

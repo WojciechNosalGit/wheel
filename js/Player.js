@@ -1,6 +1,7 @@
 class Player {
   constructor(name) {
     this.name = name;
-    console.log(this.name);
+    this.points = 0;
+    this.activeBonus = 0;
   }
 }

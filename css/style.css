@@ -5,7 +5,15 @@
 }
 
 :root {
-  --blue: #007acc;
+  /* American Palette */
+  --blue: #0984e3;
+  --blue_light: #81ecec;
+  --black: #2d3436;
+  --white: #f3f3f3;
+  --secendery_color: #55efc4;
+  --yellow: #fdcb6e;
+  --yellow_light: #ffeaa7;
+  --grey: #636e72;
 }
 
 html {
@@ -21,7 +29,6 @@ body {
 }
 
 .btn {
-  -webkit-appearance: none;
   border-radius: 5px;
   text-align: center;
   padding: 0;

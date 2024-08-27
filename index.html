@@ -25,9 +25,11 @@
     <section id="game">
       <section id="password_area">
         <div class="password_area-container">
-          <!-- <div class="password_area-letter active">A</div> -->
+          <div class="password_area-letters_wraper">
+            <!-- <div class="password_area-letter active">A</div> -->
+          </div>
+          <div class="password_area-category display-none"></div>
         </div>
-        <div class="password_area-category"></div>
       </section>
       <section id="alphabet" class="display-none">
         <div class="alphabet-vowel">
@@ -45,8 +47,8 @@
         <div class="alphabet_consonant">
           <p>spółgłoski:</p>
           <div class="alphabet_consonant-container">
-            <div class="alphabet_consonant-letter">B</div>
-            <div class="alphabet_consonant-letter">C</div>
+            <div class="alphabet_consonant-letter active">B</div>
+            <div class="alphabet_consonant-letter clicked">C</div>
             <div class="alphabet_consonant-letter">Ć</div>
             <div class="alphabet_consonant-letter">D</div>
             <div class="alphabet_consonant-letter">F</div>
@@ -76,17 +78,12 @@
       </section>
       <section id="players">
         <div class="players_container">
-          <div class="player active">
-            <span class="player-name">Wojtek</span>
-          </div>
-          <div class="player">
-            <span class="player-name">Kinia</span>
-          </div>
+          <!-- <div class="player active">Wojtek</div> -->
         </div>
         <div class="stats">
-          <span class="stats-round">Runda 5</span>
+          <!-- <span class="stats-round">Runda 5</span> -->
           <span class="stats-points">1960 pkt</span>
-          <span class="stats-current_bonus">Aktualny bonus: X100</span>
+          <span class="stats-current_bonus"></span>
           <div class="bottons-container">
             <button class="button-55 btn-spin">Zakręć kołem</button>
             <button class="button-55 btn-buy_vowel">Kup samogłoskę</button>
@@ -99,11 +96,8 @@
         <button id="start" class="button-55">Rozpocznij grę</button>
       </section>
     </section>
-
-    <footer>
-      <p>&copy; 2024 Koło Fortuny</p>
-    </footer>
     <script src="js/Password.js"></script>
+    <script src="js/Wheel.js"></script>
     <script src="js/Draw.js"></script>
     <script src="js/Player.js"></script>
     <script src="js/Result.js"></script>
