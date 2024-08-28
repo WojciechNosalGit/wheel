@@ -1,0 +1,17 @@
+@keyframes blink {
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+.blink {
+  animation: blink 0.3s;
+  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-iteration-count: 3;
+}

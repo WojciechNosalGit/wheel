@@ -1,86 +1,146 @@
 class Game {
   constructor() {
     this.draw = new Draw();
+    this.board = new Board();
     this.password = new Password();
     this.wheel = new Wheel();
+    this.sound = new AudioControl();
 
-    this.alfpabet = this.getAlphabet();
-
-    this.currentPassword = "";
+    this.currentPassword = {
+      text: "",
+      category: "",
+    };
     this.currentBonus = 0;
-    this.activePlayer = 0;
-    this.canClickLetter = false;
+    this.activePlayerIdx = 0;
+    this.players = [];
+    this.activePlayer = {};
+    this.round = 1;
+    this.vowelPrice = 150;
+    this.pointsForRound = 2000;
 
     this.startBtn = document.getElementById("start");
-    this.addPlayersBtn = document.querySelector("#add_players");
+    this.addPlayersBtn = document.getElementById("add_players");
     this.spinWheelBtn = document.querySelector(".btn-spin");
+    this.buyVowelBtn = document.querySelector(".btn-buy_vowel");
+    this.guessPasswordBtn = document.querySelector(".btn-guess_password");
+    this.confirmPasswordBtn = document.getElementById("confirm_password");
+    this.nextRoundBTN = document.getElementById("next_round");
 
-    this.playerNameArea = document.querySelector(".player_name-area");
-    this.players = [];
-    this.displayElementClass = "display";
-    this.hideElementClass = "display-none";
+    this.DOMPlayers = document.getElementById("players");
+    this.DOMAlphabet = document.getElementById("alphabet");
 
-    this.draw.drawEmptyPasswordArea(); // random password in future
-
+    this.board.drawEmptyPasswordArea(); // random password in future
+    this.init();
     this.initEvents();
   }
 
+  init() {
+    this.draw.hideElement(this.DOMAlphabet);
+    this.draw.hideElement(this.DOMPlayers);
+    this.draw.hideElement(this.startBtn);
+    this.draw.hideElement(this.confirmPasswordBtn);
+    this.draw.hideElement(this.nextRoundBTN);
+  }
+
   initEvents() {
-    this.alfpabet.all.forEach((letter) => {
+    //LETTERS
+    this.draw.alfpabet.all.forEach((letter) => {
       letter.addEventListener("click", (e) => {
         this.checkLetterInPass(e);
       });
     });
-
     // START GAME
-    this.startBtn.addEventListener("click", (e) => this.createNewPlayerArea(e));
-
+    this.startBtn.addEventListener("click", (e) => this.startGame(e));
     // ADD PLAYERS FROM INPUT
     this.addPlayersBtn.addEventListener("click", (e) => {
-      this.startGame(e);
+      this.createNewPlayerArea(e);
     });
-
     // SPIN
     this.spinWheelBtn.addEventListener("click", () => this.spinWheel());
+    //BUY VOWEL
+    this.buyVowelBtn.addEventListener("click", () => this.buyVowel());
+    //GUESS PASSWORD
+    this.guessPasswordBtn.addEventListener("click", () => this.guessPassword());
+    //CONFIRM PASSWORD
+    this.confirmPasswordBtn.addEventListener("click", () => {
+      this.confirmPassword();
+    });
+  }
+
+  confirmPassword() {
+    const win = this.board.isCorrectPassword();
+    if (win) {
+      this.winRound();
+    } else {
+      this.draw.showElement(this.DOMAlphabet);
+      this.draw.showElement(this.DOMPlayers);
+      this.draw.hideElement(this.confirmPasswordBtn);
+      this.board.getPreviousBoard();
+      this.handleWrongGuess();
+    }
+  }
+
+  createNewPlayerArea(e) {
+    this.sound.play(this.sound.click);
+    this.draw.hideElement(e.target);
+    this.draw.showElement(this.startBtn);
+
+    this.board.createDOMInputsForPlayers();
   }
 
   startGame(e) {
-    e.target.classList.remove(this.displayElementClass);
-    document.querySelector("#players").classList.add(this.displayElementClass);
-    document.querySelector("#alphabet").classList.remove(this.hideElementClass);
+    this.sound.play(this.sound.click);
+    this.reset();
 
-    const players = this.draw.getPlayersNames();
+    this.draw.hideElement(e.target);
+    this.draw.showElement(this.DOMPlayers);
+
+    //Cerate new Player
+    const players = this.board.getPlayersNames();
     players.forEach((playerName) => {
       this.players.push(new Player(playerName));
     });
-
+    this.draw.dispalyPlayersArea(this.players);
+    // For one player
+    if (this.players.length === 1) {
+      const activePlayer = this.players[this.activePlayerIdx];
+      activePlayer.setChanses(3);
+      this.draw.dispalyHearts(activePlayer.chanses);
+    }
     this.render();
   }
 
   spinWheel() {
+    this.sound.play(this.sound.click);
+
     const bonus = this.wheel.getOption();
     this.currentBonus = bonus;
     this.draw.displayBonus(this.currentBonus);
-    this.canClickLetter = true;
+    this.draw.switchActiveAlphabet("consonant");
+    this.draw.showButtons("none");
   }
 
-  getAlphabet() {
-    const vowel = [...document.querySelectorAll(".alphabet_vowel-letter")];
-    const consonant = [
-      ...document.querySelectorAll(".alphabet_consonant-letter"),
-    ];
+  buyVowel() {
+    this.sound.play(this.sound.click);
+    this.draw.switchActiveAlphabet("vowel");
+    this.addPoints(1, 0 - this.vowelPrice);
+  }
 
-    return {
-      all: [...vowel, ...consonant],
-      vowel,
-      consonant,
-    };
+  guessPassword() {
+    this.sound.play(this.sound.click);
+
+    this.board.changePasswordToInput();
+    this.draw.showButtons("none");
+    this.draw.hideElement(this.DOMAlphabet);
+    this.draw.hideElement(this.DOMPlayers);
+    this.draw.showElement(this.confirmPasswordBtn);
   }
 
   checkLetterInPass(e) {
     const letter = e.target.textContent;
-    if (!this.canClickLetter) return;
 
+    this.sound.play(this.sound.click);
+    this.draw.hideClickedLetter(letter);
     if (
       this.currentPassword.text.toUpperCase().includes(letter.toUpperCase())
     ) {
@@ -91,29 +151,127 @@ class Game {
   }
 
   handleCorrectGuess(letter) {
-    this.draw.showLetters(letter);
+    const numberOfLetters = this.board.showLettersOnBoard(letter);
+
+    this.board.showLettersOnBoard(letter);
+    //add points lettersnum x bonus
+    this.addPoints(numberOfLetters, this.currentBonus);
+    //if enougth money for vowel
+    this.canBuyVowel()
+      ? this.draw.showButtons("all")
+      : this.draw.showButtons(["spinWheel", "guessPassword"]);
+    this.draw.switchActiveAlphabet("none");
+    //if win
+    this.checkIfWin();
   }
 
-  handleWrongGuess(letter) {
-    console.log("wrong letter", letter);
+  canBuyVowel() {
+    return this.vowelPrice <= this.activePlayer.points;
   }
 
-  createNewPlayerArea(e) {
-    e.target.classList.add(this.hideElementClass);
-    this.addPlayersBtn.classList.add(this.displayElementClass);
+  addPoints(number, bonus) {
+    const points = number * bonus;
+    const player = this.activePlayer;
+    player.addPoints(points);
+    this.draw.displayPoints(player.points);
+  }
 
-    this.draw.displayAddPlayer();
+  checkIfWin() {
+    if (
+      this.currentPassword.text.toUpperCase() ===
+      this.board.getStringFromBoard().toUpperCase()
+    ) {
+      this.winRound();
+    }
+  }
+
+  winRound() {
+    this.board.animateBoard("blink");
+    this.sound.play(this.sound.winRound);
+    this.addPoints(1, this.pointsForRound);
+    this.round++;
+
+    this.nextRoundBTN.addEventListener("click", () => this.startNextRound());
+    // Message to display
+    setTimeout(() => {
+      const message = `Wygrana gracza ${this.activePlayer.name} Masz ${this.activePlayer.points} punktów`;
+      this.board.displayText(message, true);
+
+      this.draw.hideElement(this.confirmPasswordBtn);
+      this.draw.hideElement(this.DOMAlphabet);
+      this.draw.hideElement(this.DOMPlayers);
+      this.draw.showElement(this.nextRoundBTN);
+    }, 1500);
+  }
+
+  startNextRound() {
+    this.password = new Password();
+    this.render();
+  }
+
+  handleWrongGuess() {
+    this.sound.play(this.sound.wrongLetter);
+    //single pllayer
+    if (this.players.length === 1) {
+      //need to add hearts for single playes
+      const singlePayer = this.players[0];
+      singlePayer.lostChanse();
+      this.draw.dispalyHearts(singlePayer.chanses);
+      if (singlePayer.chanses === 0) {
+        this.gameOver();
+      }
+    }
+    this.activePlayerIdx === this.players.length - 1
+      ? (this.activePlayerIdx = 0)
+      : this.activePlayerIdx++;
+    this.nextPlayer();
+  }
+
+  gameOver() {
+    const message = `game over         Twój wynik to ${this.players[0].points} punktów`;
+    this.board.displayText(message, true);
+
+    this.draw.showElement(this.addPlayersBtn);
+    this.draw.hideElement(this.DOMAlphabet);
+    this.draw.hideElement(this.DOMPlayers);
+  }
+
+  nextPlayer() {
+    this.activePlayer = this.players[this.activePlayerIdx];
+
+    this.draw.classToActivePlayer(this.activePlayerIdx);
+    this.draw.displayPoints(this.activePlayer.points);
+
+    this.draw.displayBonus(0);
+    this.draw.showButtons(["spinWheel", "guessPassword"]);
+    this.draw.switchActiveAlphabet();
+  }
+
+  reset() {
+    this.password = new Password();
+    this.currentBonus = 0;
+    this.activePlayerIdx = 0;
+    this.players = [];
+    this.activePlayer = {};
+    this.round = 1;
   }
 
   async render() {
-    const activePlayer = this.players[this.activePlayer];
-
-    this.draw.drawEmptyPasswordArea();
+    this.activePlayer = this.players[this.activePlayerIdx];
     this.currentPassword = await this.password.password();
-    this.draw.displayHiddenPassword(this.currentPassword);
-    this.draw.dispalyPlayersArea(this.players);
-    this.draw.displayPoints(activePlayer.points);
+
+    this.draw.resetAlphabet();
+
+    this.board.drawEmptyPasswordArea();
+    this.board.displayText(this.currentPassword.text);
+    this.draw.classToActivePlayer(this.activePlayerIdx);
+    this.draw.showElement(this.DOMAlphabet);
+    this.draw.showElement(this.DOMPlayers);
+    this.draw.showButtons(["spinWheel", "guessPassword"]);
+    this.draw.displayPoints(this.activePlayer.points);
+    this.draw.displayBonus();
+    this.draw.hideElement(this.confirmPasswordBtn);
+    this.draw.hideElement(this.nextRoundBTN);
   }
 }
-
 const game = new Game();

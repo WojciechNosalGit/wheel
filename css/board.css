@@ -1,6 +1,6 @@
 @font-face {
   font-family: "SuperPlayful";
-  src: url("SuperPlayful-e91WO.ttf");
+  src: url("../assets/SuperPlayful-e91WO.ttf");
 }
 
 :root {
@@ -10,12 +10,12 @@
 
 #password_area {
   height: 350px;
-  width: 860px;
+  width: 930px;
   margin: auto;
 }
 
 .password_area-container {
-  height: 330px;
+  height: 340px;
   border-radius: 5px;
   margin: 25px auto 0;
   background-image: linear-gradient(
@@ -32,11 +32,12 @@
   color: #242424;
 }
 .password_area-letters_wraper {
-  width: calc(var(--password_letter-width) * 20 + 48px);
-  height: calc(var(--password_letter-height) * 5 + 34px);
+  width: 920px;
+  height: 290px;
   padding: 10px 10px;
   display: flex;
   flex-wrap: wrap;
+  gap: 4px;
   justify-content: space-around;
   align-items: center;
   margin: 0 auto;
@@ -61,7 +62,8 @@
 .password_area-letter.active {
   background-color: var(--white);
 }
-.password_area-letter .input {
+.password_area-letter .input,
+.password_area-letter .guessInput {
   background-color: var(--white);
   font-family: "SuperPlayful", sans-serif;
   font-weight: 800;
@@ -70,18 +72,22 @@
   height: 100%;
   font-size: 2rem;
   border: none;
+  border-radius: 2px;
   text-align: center;
 }
 
-.password_area-letter .input:focus {
+.password_area-letter input:focus {
   border: none;
   outline: none;
 }
 
 .password_area-letter.used_letter {
   background-color: var(--yellow_light);
+  transition: 1s ease;
+  transition-property: background-color;
 }
 
+/* CATEGORY */
 .password_area-category {
   font-size: 1rem;
   text-align: center;

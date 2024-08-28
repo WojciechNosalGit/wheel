@@ -45,12 +45,14 @@
   background-color: var(--grey);
   font-weight: 800;
   opacity: 0.6;
+  pointer-events: none;
 }
 
 .alphabet_vowel-letter.active,
 .alphabet_consonant-letter.active {
   background-color: var(--white);
   opacity: 1;
+  pointer-events: all;
 }
 
 .alphabet_vowel-letter.active:hover,

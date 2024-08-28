@@ -6,13 +6,27 @@
     <title>Koło Fortuny Online</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/password_area.css" />
+    <link rel="stylesheet" href="css/board.css" />
     <link rel="stylesheet" href="css/alphabet.css" />
     <link rel="stylesheet" href="css/game_components.css" />
     <link rel="stylesheet" href="css/players.css" />
-    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/animations.css" />
   </head>
   <body>
+    <div class="assets">
+      <audio
+        id="click_button"
+        src="assets/mixkit-cool-interface-click-tone-2568.wav"
+      ></audio>
+      <audio
+        id="win_round"
+        src="assets/mixkit-game-experience-level-increased-2062.wav"
+      ></audio>
+      <audio
+        id="wrong_letter"
+        src="assets/mixkit-wrong-electricity-buzz-955.wav"
+      ></audio>
+    </div>
     <header>
       <h1>Koło Fortuny</h1>
       <nav>
@@ -31,7 +45,7 @@
           <div class="password_area-category display-none"></div>
         </div>
       </section>
-      <section id="alphabet" class="display-none">
+      <section id="alphabet">
         <div class="alphabet-vowel">
           <p>samogłoski:</p>
           <div class="alphabet_vowel-letter">A</div>
@@ -47,8 +61,8 @@
         <div class="alphabet_consonant">
           <p>spółgłoski:</p>
           <div class="alphabet_consonant-container">
-            <div class="alphabet_consonant-letter active">B</div>
-            <div class="alphabet_consonant-letter clicked">C</div>
+            <div class="alphabet_consonant-letter">B</div>
+            <div class="alphabet_consonant-letter">C</div>
             <div class="alphabet_consonant-letter">Ć</div>
             <div class="alphabet_consonant-letter">D</div>
             <div class="alphabet_consonant-letter">F</div>
@@ -77,14 +91,19 @@
         </div>
       </section>
       <section id="players">
-        <div class="players_container">
-          <!-- <div class="player active">Wojtek</div> -->
+        <div class="players_wrapper">
+          <div class="players_container">
+            <!-- <div class="player active">Wojtek</div> -->
+          </div>
+          <div class="hearts_container">
+            <!-- <div class="heart">X</div> -->
+          </div>
         </div>
         <div class="stats">
           <!-- <span class="stats-round">Runda 5</span> -->
-          <span class="stats-points">1960 pkt</span>
+          <span class="stats-points"></span>
           <span class="stats-current_bonus"></span>
-          <div class="bottons-container">
+          <div class="buttons-container">
             <button class="button-55 btn-spin">Zakręć kołem</button>
             <button class="button-55 btn-buy_vowel">Kup samogłoskę</button>
             <button class="button-55 btn-guess_password">Odgaduję hasło</button>
@@ -92,16 +111,25 @@
         </div>
       </section>
       <section id="game_components">
-        <button id="add_players" class="button-55">Ruszamy!</button>
-        <button id="start" class="button-55">Rozpocznij grę</button>
+        <button id="start" class="button-55 show_button">start</button>
+        <button id="add_players" class="button-55 show_button">Nowa gra</button>
+        <button id="next_round" class="button-55 show_button">
+          Następna runda
+        </button>
+        <button id="confirm_password" class="button-55 show_button">
+          Potwierdź
+        </button>
       </section>
     </section>
+    <script src="js/Board.js"></script>
     <script src="js/Password.js"></script>
+    <script src="js/Sound.js"></script>
     <script src="js/Wheel.js"></script>
     <script src="js/Draw.js"></script>
     <script src="js/Player.js"></script>
     <script src="js/Result.js"></script>
     <script src="js/Stats.js"></script>
     <script src="js/Game.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

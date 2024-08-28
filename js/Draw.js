@@ -1,190 +1,131 @@
 class Draw {
-  #password;
-  #passwordArea;
+  #displayElementClass;
+  #hideElementClass;
   constructor() {
-    this.#password = {
-      text: "",
-      category: "",
+    this.alfpabet = this.getAlphabet();
+    this.buttons = {
+      spinWheel: document.querySelector(".btn-spin"),
+      buyVowel: document.querySelector(".btn-buy_vowel"),
+      guessPassword: document.querySelector(".btn-guess_password"),
     };
-    this.#passwordArea = [];
+    this.#displayElementClass = "display";
+    this.#hideElementClass = "display-none";
   }
 
-  #createElement(selektor, className, iterator) {
-    const element = document.createElement(selektor);
-    element.classList.add(className);
-    if (iterator !== "") element.dataset.id = iterator;
-    return element;
+  getAlphabet() {
+    const vowel = [...document.querySelectorAll(".alphabet_vowel-letter")];
+    const consonant = [
+      ...document.querySelectorAll(".alphabet_consonant-letter"),
+    ];
+
+    return {
+      all: [...vowel, ...consonant],
+      vowel,
+      consonant,
+    };
   }
 
-  drawEmptyPasswordArea() {
-    const passwordAreaContainer = document.querySelector(
-      ".password_area-letters_wraper"
-    );
-    this.#passwordArea = []; //reset
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 20; j++) {
-        const div = this.#createElement("div", "password_area-letter");
-        this.#passwordArea.push(div);
-      }
+  showElement(element) {
+    element.classList.remove(this.#hideElementClass);
+    element.classList.add(this.#displayElementClass);
+  }
+
+  hideElement(element) {
+    element.classList.remove(this.#displayElementClass);
+    element.classList.add(this.#hideElementClass);
+  }
+
+  displayPoints(points = 0) {
+    const pointsArea = document.querySelector(".stats-points");
+    pointsArea.textContent = points + " punktów";
+  }
+
+  displayBonus(bonus = 0) {
+    const bonusArea = document.querySelector(".stats-current_bonus");
+    bonusArea.textContent =
+      bonus === 0 ? "Zakręć kołem" : "Aktywny bonus: " + bonus;
+  }
+
+  dispalyHearts(heartsNumber) {
+    const heartsDOM = document.querySelector(".hearts_container");
+    heartsDOM.innerHTML = "";
+    while (heartsNumber) {
+      const heartElem = document.createElement("div");
+      heartElem.classList.add("heart");
+      heartElem.textContent = "X";
+      heartsDOM.appendChild(heartElem);
+      heartsNumber--;
     }
-    passwordAreaContainer.innerHTML = ""; //reset
-    this.#passwordArea.forEach((item, idx) => {
-      item.dataset.id = idx;
-      passwordAreaContainer.appendChild(item);
-    });
   }
-
-  displayHiddenPassword(password) {
-    this.#password.text = password.text;
-    this.#password.category = password.category;
-    const categoryArea = document.querySelector(".password_area-category");
-    categoryArea.classList.remove("display-none");
-    categoryArea.textContent = `Kategoria: ${password.category}`;
-
-    const words = this.#password.text.split(" ");
-    this.#machWordsToArea(words);
-  }
-
-  #machWordsToArea(words) {
-    let idx = 20; // index first squere
-    let row = 1;
-    words.forEach((word) => {
-      //if there is no space to display full word
-      if (word.length + idx > 20 * row) {
-        idx = 20 * row;
-        row++;
-      }
-      const wordArr = [...word, " "];
-      for (let i = 0; i < wordArr.length; i++) {
-        if (wordArr[i] === " ") return idx++; //make space at the and of the word
-        this.#passwordArea[idx].classList.add("active"); //white squere
-        this.#passwordArea[idx].dataset.letter = word[i];
-        idx++;
-      }
-    });
-  }
-
-  showLetters(letter) {
-    const indexes = [];
-
-    const findIndexes = (letter) => {
-      this.#passwordArea.forEach((elem) => {
-        const datasetLetter = String(elem.dataset.letter).toUpperCase();
-
-        if (datasetLetter === letter.toUpperCase()) {
-          const idx = elem.dataset.id;
-          indexes.push(idx);
-        }
-      });
-      return indexes;
-    };
-
-    findIndexes(letter).forEach((index) => {
-      this.#passwordArea[index].classList.add("used_letter");
-      this.#passwordArea[index].textContent = letter;
-    });
-  }
-
-  displayAddPlayer(labelString = "Podaj imiona graczy", className = "active") {
-    const label = (labelString) => {
-      let num = 0;
-      [...labelString].forEach((el) => {
-        if (el === " ") return num++;
-        this.#passwordArea[num].classList.add(className);
-        this.#passwordArea[num++].textContent = el;
-      });
-    };
-    label(labelString);
-
-    const createInput = () => {
-      let start = 20;
-      const drawInputArea = () => {
-        for (let j = 1; j <= 4; j++) {
-          for (let i = start * j; i < start * j + 13; i++) {
-            const input = this.#createElement("input", "input", i);
-            input.setAttribute("type", "text");
-            input.setAttribute("maxlength", 1);
-            input.dataset.row = j;
-            const squere = this.#passwordArea[i];
-
-            squere.classList.add(className);
-            squere.appendChild(input);
-          }
-        }
-      };
-      drawInputArea();
-
-      const setFocusOnInput = () => {
-        const inputs = [
-          ...document.querySelectorAll(".password_area-letter .input"),
-        ];
-
-        inputs.forEach((input, i) => {
-          inputs[0].focus(); //focus on first
-          input.addEventListener("keyup", (e) => {
-            const letter = e.target.value.toUpperCase();
-            if (e.keyCode === 8 && i > 0) {
-              //if backspace and not start element
-
-              inputs[i - 1].value = "";
-              inputs[i - 1].focus();
-            } else if (e.keyCode === 13) {
-              console.log(inputs[i]);
-            } else if (e.keyCode !== 8) {
-              //otcher keys except backspace and enter
-              inputs[i + 1].focus();
-            }
-          });
-        });
-      };
-      setFocusOnInput();
-    };
-    createInput();
-  }
-
-  getPlayersNames(row) {
-    const names = [];
-
-    const getNames = (row) => {
-      const input = document.querySelectorAll(`input[data-row="${row}"]`);
-      const name = [];
-
-      input.forEach((item) => {
-        name.push(item.value);
-      });
-      if (name.join("").trim().toUpperCase()) {
-        names.push(name.join("").trim().toUpperCase());
-      }
-    };
-    for (let i = 1; i < 5; i++) {
-      getNames(i);
-    }
-    if (names.length === 0) names.push("Ukryty talent");
-    return names;
-  }
-
-  // ### add onclick on enter
 
   dispalyPlayersArea(names) {
     const playresNamesArea = document.querySelector(".players_container");
+    playresNamesArea.textContent = "";
 
     names.forEach((name) => {
       const playerName = name.name;
-      const namesElement = this.#createElement("div", "player");
+      const namesElement = document.createElement("div");
+      namesElement.classList.add("player");
       namesElement.textContent = playerName;
       playresNamesArea.appendChild(namesElement);
     });
   }
 
-  displayPoints(points) {
-    const pointsArea = document.querySelector(".stats-points");
-
-    pointsArea.textContent = points + " punktów";
+  classToActivePlayer(idx) {
+    const players = [...document.querySelectorAll(".player")];
+    players.forEach((elem) => elem.classList.remove("active"));
+    players[idx].classList.add("active");
   }
 
-  displayBonus(bonus) {
-    const bonusArea = document.querySelector(".stats-current_bonus");
-    bonusArea.textContent =
-      bonus === 0 ? "Zakręć kołem" : "Aktywny bonus: " + bonus;
+  switchActiveAlphabet(type = "none", className = "active") {
+    // vowel/ consonant
+    this.alfpabet.all.forEach((elem) => elem.classList.remove("active"));
+    if (type === "none") return;
+    this.alfpabet[type].forEach((letter) => {
+      if (!letter.classList.contains("clicked")) {
+        // only if wasn't clicked
+        letter.classList.add(className);
+      }
+    });
+  }
+
+  showButtons(buttonsNames) {
+    //spinWheel/ buyVowel/ guessPassword/ all/ none
+    let btns = [
+      this.buttons.spinWheel,
+      this.buttons.buyVowel,
+      this.buttons.guessPassword,
+    ];
+    // reset
+    btns.forEach((btn) => {
+      btn.classList.remove("show_button");
+    });
+
+    if (buttonsNames === "none") return;
+    if (buttonsNames === "all") {
+      btns.forEach((btn) => {
+        btn.classList.add("show_button");
+      });
+      return;
+    }
+
+    buttonsNames.forEach((name) => {
+      this.buttons[name].classList.add("show_button");
+    });
+  }
+
+  hideClickedLetter(letter) {
+    this.alfpabet.all.forEach((elem) => {
+      if (elem.textContent === letter) {
+        elem.classList.add("clicked");
+      }
+    });
+  }
+
+  resetAlphabet() {
+    this.alfpabet.all.forEach((letter) => {
+      letter.classList.remove("clicked");
+      letter.classList.remove("active");
+    });
   }
 }

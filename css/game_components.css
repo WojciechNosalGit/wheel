@@ -1,15 +1,19 @@
 #game_components {
-  height: 20px;
+  height: 0px;
 }
 
 button#start,
-button#add_players {
+button#add_players,
+button#confirm_password,
+button#next_round {
   position: absolute;
-  top: 360px;
+  top: 380px;
   justify-content: center;
   align-items: center;
 }
-
-button#add_players {
-  display: none;
+button#confirm_password,
+button#next_round {
+  border-width: 5px;
+  border-color: var(--yellow);
+  color: var(--yellow);
 }

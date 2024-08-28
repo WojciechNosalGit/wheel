@@ -28,27 +28,6 @@ body {
   height: 100vh;
 }
 
-.btn {
-  border-radius: 5px;
-  text-align: center;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-  color: white;
-  background-color: rgb(54, 219, 90);
-  width: 200px;
-  height: 70px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  font-size: 1.1rem;
-  text-shadow: 1px 1px 3px black;
-}
-
-.btn:hover {
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 15px 25px,
-    rgba(0, 0, 0, 0.23) 0px 10px 10px;
-  transition: all 0.3s;
-}
-
 #game {
   height: 100%;
   position: relative;
@@ -82,12 +61,12 @@ body {
 }
 
 .display {
-  display: flex !important;
+  display: block !important;
 }
 
 .button-55 {
   align-self: center;
-  background-color: #fff;
+  background-color: var(--grey);
   background-image: none;
   background-position: 0 90%;
   background-repeat: repeat no-repeat;
@@ -100,27 +79,32 @@ body {
   color: #41403e;
   cursor: pointer;
   display: inline-block;
-  font-family: Neucha, sans-serif;
   font-size: 1rem;
   line-height: 23px;
   outline: none;
   padding: 0.75rem;
   text-decoration: none;
-  transition: all 235ms ease-in-out;
   border-bottom-left-radius: 15px 255px;
   border-bottom-right-radius: 225px 15px;
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  pointer-events: none;
 }
 
-.button-55:hover {
-  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
-  transform: translate3d(0, 2px, 0);
-}
+.show_button {
+  background-color: var(--white);
+  transition: all 235ms ease-in-out;
+  pointer-events: all;
 
-.button-55:focus {
-  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+    transform: translate3d(0, 2px, 0);
+    color: #0984e3;
+  }
+
+  &:focus {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+  }
 }

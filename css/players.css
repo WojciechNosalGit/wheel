@@ -1,8 +1,11 @@
 #players {
-  display: none;
   width: 800px;
   flex-direction: column;
   margin: 20px auto;
+}
+
+.players_wrapper {
+  display: flex;
 }
 
 .players_container {
@@ -39,6 +42,14 @@
   background-color: rgb(153, 239, 250);
 }
 
+.hearts_container {
+  display: flex;
+  margin-left: 36px;
+  font-size: 2rem;
+  align-items: center;
+  order: 1;
+}
+
 .stats {
   display: flex;
   height: 220px;
@@ -64,7 +75,7 @@
   border-top-right-radius: 15px 225px;
 }
 
-.bottons-container {
+.buttons-container {
   display: flex;
   justify-content: space-around;
   height: 120px;
