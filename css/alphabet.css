@@ -10,10 +10,12 @@
   display: flex;
   width: 15%;
   font-size: 0.9rem;
+  margin-right: 8px;
+  color: var(--black);
 }
 
 .alphabet-vowel {
-  height: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -28,14 +30,15 @@
   display: flex;
   flex-wrap: wrap;
   align-content: space-around;
-  height: 100px;
-  width: 580px;
+  height: 80px;
+  width: 540px;
 }
 
 .alphabet_vowel-letter,
 .alphabet_consonant-letter {
   display: flex;
-  margin-left: 8px;
+  text-shadow: 0 1px 1px var(--white);
+  margin-left: 4px;
   width: 36px;
   height: 36px;
   border-radius: 5px;
@@ -44,7 +47,7 @@
   align-items: center;
   background-color: var(--grey);
   font-weight: 800;
-  opacity: 0.6;
+  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -65,5 +68,5 @@
 .alphabet_vowel-letter.clicked,
 .alphabet_consonant-letter.clicked {
   background-color: transparent;
-  opacity: 1;
+  opacity: 0.8;
 }

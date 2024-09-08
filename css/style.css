@@ -6,23 +6,25 @@
 
 :root {
   /* American Palette */
-  --blue: #0984e3;
-  --blue_light: #81ecec;
-  --black: #2d3436;
+  --blue: #025e9c;
+  --blue_light: #1eb1ff;
+  --black: #121213;
   --white: #f3f3f3;
-  --secendery_color: #55efc4;
-  --yellow: #fdcb6e;
-  --yellow_light: #ffeaa7;
+  --secendery_color: #a529fe;
+  --secendery_color_light: #ef76f5;
+  --yellow: #feac16;
+  --yellow_light: #fbe148;
   --grey: #636e72;
 }
 
 html {
-  font-family: Roboto, sans-serif;
+  font-family: SuperPlayful, sans-serif;
   font-size: 20px;
 }
 
 body {
   background-color: #f4f4f4;
+  background-image: linear-gradient(180deg, #16a085 20%, #f4d03f 100%);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -30,16 +32,9 @@ body {
 
 #game {
   height: 100%;
+  width: 930px;
+  margin: 0 auto;
   position: relative;
-  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-}
-
-#game_components {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 160px;
 }
 
 .player_name-area {
@@ -67,19 +62,14 @@ body {
 .button-55 {
   align-self: center;
   background-color: var(--grey);
-  background-image: none;
-  background-position: 0 90%;
-  background-repeat: repeat no-repeat;
-  background-size: 4px 3px;
   border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 4px;
   box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
-  box-sizing: border-box;
-  color: #41403e;
+  color: var(--black);
   cursor: pointer;
-  display: inline-block;
   font-size: 1rem;
+  font-family: SuperPlayful, sans-serif;
   line-height: 23px;
   outline: none;
   padding: 0.75rem;
@@ -88,20 +78,19 @@ body {
   border-bottom-right-radius: 225px 15px;
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
-  user-select: none;
-  -webkit-user-select: none;
   pointer-events: none;
+  opacity: 0.5;
 }
 
 .show_button {
   background-color: var(--white);
   transition: all 235ms ease-in-out;
+  opacity: 1;
   pointer-events: all;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
     transform: translate3d(0, 2px, 0);
-    color: #0984e3;
   }
 
   &:focus {

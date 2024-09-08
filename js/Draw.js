@@ -37,13 +37,25 @@ class Draw {
 
   displayPoints(points = 0) {
     const pointsArea = document.querySelector(".stats-points");
-    pointsArea.textContent = points + " punktów";
+    pointsArea.textContent = points + " pkt.";
   }
 
   displayBonus(bonus = 0) {
     const bonusArea = document.querySelector(".stats-current_bonus");
-    bonusArea.textContent =
-      bonus === 0 ? "Zakręć kołem" : "Aktywny bonus: " + bonus;
+    bonusArea.textContent = "Bonus: " + bonus;
+  }
+
+  displayNumberOfWins(num = 0, roundsToWin = 5) {
+    const winsContainer = document.querySelector(".stats-wins");
+    winsContainer.innerHTML = "";
+
+    for (let i = 0; i < roundsToWin; i++) {
+      const star = document.createElement("img");
+
+      if (i < num) star.src = "assets/star.png";
+      else star.src = "assets/empty_star.png";
+      winsContainer.appendChild(star);
+    }
   }
 
   dispalyHearts(heartsNumber) {
@@ -52,7 +64,7 @@ class Draw {
     while (heartsNumber) {
       const heartElem = document.createElement("div");
       heartElem.classList.add("heart");
-      heartElem.textContent = "X";
+      heartElem.innerHTML = '<img src="assets/heart.png" alt="heart" />';
       heartsDOM.appendChild(heartElem);
       heartsNumber--;
     }

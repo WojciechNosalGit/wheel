@@ -1,5 +1,8 @@
 #game_components {
   height: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button#start,

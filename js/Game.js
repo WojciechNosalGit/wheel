@@ -10,12 +10,13 @@ class Game {
       text: "",
       category: "",
     };
+    this.roundsToWin = 2;
+    this.chansesForSinglePlayer = 5;
     this.currentBonus = 0;
     this.activePlayerIdx = 0;
     this.players = [];
     this.activePlayer = {};
-    this.round = 1;
-    this.vowelPrice = 150;
+    this.vowelPrice = 1500;
     this.pointsForRound = 2000;
 
     this.startBtn = document.getElementById("start");
@@ -28,6 +29,7 @@ class Game {
 
     this.DOMPlayers = document.getElementById("players");
     this.DOMAlphabet = document.getElementById("alphabet");
+    this.DOMCategory = document.querySelector(".password_area-category");
 
     this.board.drawEmptyPasswordArea(); // random password in future
     this.init();
@@ -65,6 +67,8 @@ class Game {
     this.confirmPasswordBtn.addEventListener("click", () => {
       this.confirmPassword();
     });
+
+    this.nextRoundBTN.addEventListener("click", () => this.startNextRound());
   }
 
   confirmPassword() {
@@ -104,7 +108,7 @@ class Game {
     // For one player
     if (this.players.length === 1) {
       const activePlayer = this.players[this.activePlayerIdx];
-      activePlayer.setChanses(3);
+      activePlayer.setChanses(this.chansesForSinglePlayer);
       this.draw.dispalyHearts(activePlayer.chanses);
     }
     this.render();
@@ -122,6 +126,7 @@ class Game {
 
   buyVowel() {
     this.sound.play(this.sound.click);
+    this.currentBonus = 0;
     this.draw.switchActiveAlphabet("vowel");
     this.addPoints(1, 0 - this.vowelPrice);
   }
@@ -156,11 +161,13 @@ class Game {
     this.board.showLettersOnBoard(letter);
     //add points lettersnum x bonus
     this.addPoints(numberOfLetters, this.currentBonus);
+
     //if enougth money for vowel
     this.canBuyVowel()
       ? this.draw.showButtons("all")
       : this.draw.showButtons(["spinWheel", "guessPassword"]);
     this.draw.switchActiveAlphabet("none");
+    this.draw.displayBonus();
     //if win
     this.checkIfWin();
   }
@@ -189,18 +196,40 @@ class Game {
     this.board.animateBoard("blink");
     this.sound.play(this.sound.winRound);
     this.addPoints(1, this.pointsForRound);
-    this.round++;
+    this.activePlayer.wins++;
+    if (this.players.length > 1) {
+      this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
+    }
 
-    this.nextRoundBTN.addEventListener("click", () => this.startNextRound());
     // Message to display
     setTimeout(() => {
-      const message = `Wygrana gracza ${this.activePlayer.name} Masz ${this.activePlayer.points} punktów`;
+      let message =
+        this.players.length > 1
+          ? `Rundę wygrywa      ${this.activePlayer.name}                   Masz ${this.activePlayer.points} pkt`
+          : `Brawo Twój wynik to ${this.activePlayer.points} pkt`;
+      // if winning/final round
+      if (
+        this.activePlayer.wins === this.roundsToWin &&
+        this.players.length > 1
+      ) {
+        message = `Grę wygrywa        ${this.activePlayer.name}                Wynik: ${this.activePlayer.points} pkt`;
+      }
       this.board.displayText(message, true);
 
       this.draw.hideElement(this.confirmPasswordBtn);
       this.draw.hideElement(this.DOMAlphabet);
       this.draw.hideElement(this.DOMPlayers);
-      this.draw.showElement(this.nextRoundBTN);
+      this.draw.hideElement(this.DOMCategory);
+
+      //show button depending on rounds
+      if (
+        this.activePlayer.wins !== this.roundsToWin ||
+        this.players.length === 1
+      ) {
+        this.draw.showElement(this.nextRoundBTN);
+      } else {
+        this.draw.showElement(this.addPlayersBtn);
+      }
     }, 1500);
   }
 
@@ -245,6 +274,9 @@ class Game {
     this.draw.displayBonus(0);
     this.draw.showButtons(["spinWheel", "guessPassword"]);
     this.draw.switchActiveAlphabet();
+
+    if (this.players.length === 1) return; // only for more players
+    this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
   }
 
   reset() {
@@ -258,12 +290,21 @@ class Game {
 
   async render() {
     this.activePlayer = this.players[this.activePlayerIdx];
-    this.currentPassword = await this.password.password();
+    try {
+      this.currentPassword = await this.password.password();
+    } catch (error) {
+      console.error("Error fetching password:", error);
+      // Provide a default password or retry mechanism
+      this.currentPassword = { text: "ERROR !!!", category: "ERROR" };
+    }
 
     this.draw.resetAlphabet();
 
     this.board.drawEmptyPasswordArea();
     this.board.displayText(this.currentPassword.text);
+    this.board.showCategory(this.currentPassword.category);
+
+    this.draw.showElement(this.DOMCategory);
     this.draw.classToActivePlayer(this.activePlayerIdx);
     this.draw.showElement(this.DOMAlphabet);
     this.draw.showElement(this.DOMPlayers);
@@ -272,6 +313,9 @@ class Game {
     this.draw.displayBonus();
     this.draw.hideElement(this.confirmPasswordBtn);
     this.draw.hideElement(this.nextRoundBTN);
+
+    if (this.players.length === 1) return; // only for more players
+    this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
   }
 }
 const game = new Game();

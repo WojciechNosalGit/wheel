@@ -18,17 +18,6 @@
   height: 340px;
   border-radius: 5px;
   margin: 25px auto 0;
-  background-image: linear-gradient(
-    to top,
-    #d5d4d0 0%,
-    #d5d4d0 1%,
-    #eeeeec 31%,
-    #efeeec 75%,
-    #d5d4d0 100%
-  );
-  background-size: 4px 3px;
-  border-style: solid;
-  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
   color: #242424;
 }
 .password_area-letters_wraper {
@@ -45,13 +34,13 @@
 .password_area-letter {
   font-family: "SuperPlayful", sans-serif;
   background-color: var(--blue_light);
-  border: 1px solid var(--black);
-  border-radius: 2px;
+  border: 2px solid var(--black);
+  border-radius: 4px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   display: flex;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 800;
   justify-content: center;
   align-items: center;
@@ -83,8 +72,6 @@
 
 .password_area-letter.used_letter {
   background-color: var(--yellow_light);
-  transition: 1s ease;
-  transition-property: background-color;
 }
 
 /* CATEGORY */
@@ -93,15 +80,7 @@
   text-align: center;
   margin-top: 5px;
   padding: 5px;
-  background-color: var(--white);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-  border-bottom-left-radius: 15px 255px;
-  border-bottom-right-radius: 225px 15px;
-  border-top-left-radius: 255px 15px;
-  border-top-right-radius: 15px 225px;
-  width: 240px;
+  /* width: 240px; */
   margin: auto;
-  transform: rotate(0.5deg);
+  letter-spacing: 1px;
 }

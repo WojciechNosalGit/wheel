@@ -5,6 +5,8 @@ class Board {
     this.DOMpasswordAreaContainer = document.querySelector(
       ".password_area-letters_wraper"
     );
+    this.DOMCategory = document.querySelector(".password_area-category");
+
     this.#board = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,9 +33,10 @@ class Board {
     });
   }
 
-  displayText(text, display = false) {
+  displayText(text, display = false, row) {
     const words = text.split(" ");
-    let rowIndex = 0;
+    let rowIndex = row === 0 ? 0 : this.startRow(text);
+    // let rowIndex = 0;
     let colIndex = 0;
     const punctuation = [".", ",", "!", "?", ":", ";", "-", "'"];
 
@@ -92,6 +95,13 @@ class Board {
     });
   }
 
+  startRow(text) {
+    const length = text.length;
+    if (length < 20) return 2;
+    if (length >= 20 && length < 80) return 1;
+    else return 0;
+  }
+
   showLettersOnBoard(letter) {
     let count = 0;
     this.#board.forEach((row, i) => {
@@ -112,9 +122,13 @@ class Board {
     return count;
   }
 
+  showCategory(category) {
+    this.DOMCategory.textContent = `Kategoria: ${category}`;
+  }
+
   createDOMInputsForPlayers() {
     // row1 text
-    this.displayText(" Wpiszcie imiona", true);
+    this.displayText(" Wpiszcie imiona", true, 0);
 
     this.#board.forEach((row, i) => {
       if (i === 0) return; //space for label
@@ -126,7 +140,11 @@ class Board {
         );
 
         //for numbers on the first cell in each row
-        if (j === 0) return (div.textContent = i);
+        if (j === 0) {
+          div.classList.add(this.usedLetterClass);
+          div.textContent = i;
+          return;
+        }
 
         const input = document.createElement("input");
         input.setAttribute("type", "text");
