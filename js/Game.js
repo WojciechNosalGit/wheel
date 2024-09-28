@@ -3,21 +3,21 @@ class Game {
     this.draw = new Draw();
     this.board = new Board();
     this.password = new Password();
-    this.wheel = new Wheel();
+    this.wheel = new Wheel("wheel", ".stats-current_bonus", ".wheel_container");
     this.sound = new AudioControl();
 
     this.currentPassword = {
       text: "",
       category: "",
     };
-    this.roundsToWin = 2;
+    this.roundsToWin = 3;
     this.chansesForSinglePlayer = 5;
     this.currentBonus = 0;
     this.activePlayerIdx = 0;
     this.players = [];
     this.activePlayer = {};
     this.vowelPrice = 1500;
-    this.pointsForRound = 2000;
+    this.pointsForRound = 1000;
 
     this.startBtn = document.getElementById("start");
     this.addPlayersBtn = document.getElementById("add_players");
@@ -28,6 +28,7 @@ class Game {
     this.nextRoundBTN = document.getElementById("next_round");
 
     this.DOMPlayers = document.getElementById("players");
+    this.DOMPoints = document.querySelector(".stats-points");
     this.DOMAlphabet = document.getElementById("alphabet");
     this.DOMCategory = document.querySelector(".password_area-category");
 
@@ -114,14 +115,35 @@ class Game {
     this.render();
   }
 
-  spinWheel() {
+  async spinWheel() {
     this.sound.play(this.sound.click);
+    this.wheel.showWheele();
+    try {
+      const result = await this.wheel.spinWheel(); // waiting for result
+      this.wheel.hideWheel();
 
-    const bonus = this.wheel.getOption();
-    this.currentBonus = bonus;
-    this.draw.displayBonus(this.currentBonus);
-    this.draw.switchActiveAlphabet("consonant");
-    this.draw.showButtons("none");
+      if (this.resultHandler(result)) return; // if bankrut or stop
+
+      this.currentBonus = result;
+      this.draw.displayBonus(this.currentBonus);
+      this.draw.switchActiveAlphabet("consonant");
+      this.draw.showButtons("none");
+    } catch (error) {
+      console.error("Error spinning wheel:", error);
+    }
+  }
+
+  resultHandler(value) {
+    if (value === 0) {
+      //STOP result
+      this.handleWrongGuess();
+      return true;
+    } else if (value === -1) {
+      //BANKRUT
+      this.activePlayer.points = 0;
+      this.handleWrongGuess();
+      return true;
+    } else return false;
   }
 
   buyVowel() {
@@ -156,6 +178,7 @@ class Game {
   }
 
   handleCorrectGuess(letter) {
+    this.sound.play(this.sound.correctLetter);
     const numberOfLetters = this.board.showLettersOnBoard(letter);
 
     this.board.showLettersOnBoard(letter);
@@ -181,6 +204,10 @@ class Game {
     const player = this.activePlayer;
     player.addPoints(points);
     this.draw.displayPoints(player.points);
+
+    if (points === 0) return;
+
+    this.draw.animatePoints(points);
   }
 
   checkIfWin() {
@@ -188,7 +215,9 @@ class Game {
       this.currentPassword.text.toUpperCase() ===
       this.board.getStringFromBoard().toUpperCase()
     ) {
-      this.winRound();
+      setTimeout(() => {
+        this.winRound();
+      }, 400);
     }
   }
 
@@ -234,6 +263,7 @@ class Game {
   }
 
   startNextRound() {
+    this.sound.play(this.sound.click);
     this.password = new Password();
     this.render();
   }
@@ -247,7 +277,7 @@ class Game {
       singlePayer.lostChanse();
       this.draw.dispalyHearts(singlePayer.chanses);
       if (singlePayer.chanses === 0) {
-        this.gameOver();
+        setTimeout(() => this.gameOver(), 500);
       }
     }
     this.activePlayerIdx === this.players.length - 1
@@ -257,12 +287,14 @@ class Game {
   }
 
   gameOver() {
+    this.sound.play(this.sound.gameOver);
     const message = `game over         Twój wynik to ${this.players[0].points} punktów`;
     this.board.displayText(message, true);
 
     this.draw.showElement(this.addPlayersBtn);
     this.draw.hideElement(this.DOMAlphabet);
     this.draw.hideElement(this.DOMPlayers);
+    this.draw.hideElement(this.DOMCategory);
   }
 
   nextPlayer() {

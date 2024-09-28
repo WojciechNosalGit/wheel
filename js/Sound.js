@@ -3,6 +3,9 @@ class AudioControl {
     this.click = document.getElementById("click_button");
     this.winRound = document.getElementById("win_round");
     this.wrongLetter = document.getElementById("wrong_letter");
+    this.correctLetter = document.getElementById("correct_quess");
+    this.spinWheel = document.getElementById("spin_wheel");
+    this.gameOver = document.getElementById("game_over");
   }
   play(sound) {
     sound.currentTime = 0;

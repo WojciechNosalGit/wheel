@@ -127,13 +127,15 @@ class Board {
   }
 
   createDOMInputsForPlayers() {
+    const nameSpaceLength = 9;
+
     // row1 text
     this.displayText(" Wpiszcie imiona", true, 0);
 
     this.#board.forEach((row, i) => {
       if (i === 0) return; //space for label
       row.forEach((cell, j) => {
-        if (j > 13) return; // only 13 charts
+        if (j > nameSpaceLength) return; // only 13 charts
 
         const div = this.DOMpasswordAreaContainer.querySelector(
           `[data-x='${i}'][data-y='${j}']`

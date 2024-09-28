@@ -8,6 +8,8 @@ class Draw {
       buyVowel: document.querySelector(".btn-buy_vowel"),
       guessPassword: document.querySelector(".btn-guess_password"),
     };
+    this.pointsArea = document.querySelector(".stats-points");
+
     this.#displayElementClass = "display";
     this.#hideElementClass = "display-none";
   }
@@ -36,13 +38,25 @@ class Draw {
   }
 
   displayPoints(points = 0) {
-    const pointsArea = document.querySelector(".stats-points");
-    pointsArea.textContent = points + " pkt.";
+    this.pointsArea.textContent = points + " pkt.";
+  }
+
+  animatePoints(points) {
+    const sign = points < 0 ? "" : "+";
+    const elem = document.createElement("div");
+    elem.classList.add("fadeIn_points");
+    elem.classList.add("fadeIn");
+    elem.textContent = `${sign} ${points}`;
+    this.pointsArea.appendChild(elem);
+
+    setTimeout(() => {
+      elem.remove();
+    }, 2000);
   }
 
   displayBonus(bonus = 0) {
     const bonusArea = document.querySelector(".stats-current_bonus");
-    bonusArea.textContent = "Bonus: " + bonus;
+    bonusArea.textContent = `Bonus: ${bonus === 0 ? "" : bonus}`;
   }
 
   displayNumberOfWins(num = 0, roundsToWin = 5) {

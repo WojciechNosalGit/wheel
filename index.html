@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Koło Fortuny Online</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/wheel.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/board.css" />
     <link rel="stylesheet" href="css/alphabet.css" />
@@ -14,18 +15,15 @@
   </head>
   <body>
     <div class="assets">
-      <audio
-        id="click_button"
-        src="assets/mixkit-cool-interface-click-tone-2568.wav"
-      ></audio>
-      <audio
-        id="win_round"
-        src="assets/mixkit-game-experience-level-increased-2062.wav"
-      ></audio>
+      <audio id="click_button" src="assets/click.wav"></audio>
+      <audio id="win_round" src="assets/win_round.wav"></audio>
       <audio
         id="wrong_letter"
         src="assets/mixkit-wrong-electricity-buzz-955.wav"
       ></audio>
+      <audio id="spin_wheel" src="assets/spin.wav"></audio>
+      <audio id="correct_quess" src="assets/wrightGuess.wav"></audio>
+      <audio id="game_over" src="assets/game_over.wav"></audio>
     </div>
     <header>
       <h1>Koło Fortuny</h1>
@@ -122,15 +120,19 @@
           Potwierdź
         </button>
       </section>
+      <section class="wheel_container">
+        <canvas id="wheel" width="500" height="500"></canvas>
+        <div id="pointer"></div>
+      </section>
     </section>
     <script src="js/Board.js"></script>
     <script src="js/Password.js"></script>
     <script src="js/Sound.js"></script>
-    <script src="js/Wheel.js"></script>
     <script src="js/Draw.js"></script>
     <script src="js/Player.js"></script>
     <script src="js/Result.js"></script>
     <script src="js/Stats.js"></script>
+    <script src="js/Wheel.js"></script>
     <script src="js/Game.js"></script>
     <script src="js/main.js"></script>
   </body>

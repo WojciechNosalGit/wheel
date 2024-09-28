@@ -19,6 +19,6 @@ class Password {
 
   #randomNumber(max, min = 0) {
     const random = Math.floor(Math.random() * (max - min)) + min;
-    return 1;
+    return 0;
   }
 }

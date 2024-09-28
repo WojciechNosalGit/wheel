@@ -48,7 +48,9 @@
   background-color: var(--grey);
   font-weight: 800;
   opacity: 0.5;
+  box-shadow: 1px 1px 1px #969696;
   pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .alphabet_vowel-letter.active,
@@ -68,5 +70,6 @@
 .alphabet_vowel-letter.clicked,
 .alphabet_consonant-letter.clicked {
   background-color: transparent;
-  opacity: 0.8;
+  box-shadow: none;
+  opacity: 0.4;
 }

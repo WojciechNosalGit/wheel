@@ -8,6 +8,8 @@
 
 .players_wrapper {
   display: flex;
+  height: 70px;
+  justify-content: center;
 }
 
 .players_container {
@@ -25,13 +27,13 @@
 
     &.active {
       color: var(--blue_light);
+      font-size: 2.5rem;
     }
   }
 }
 
 .hearts_container {
   display: flex;
-  margin-left: 28px;
   align-items: center;
   order: 1;
 
@@ -54,7 +56,6 @@
 
   color: var(--black);
   text-decoration: none;
-  transition: all 235ms ease-in-out;
 }
 
 .stats_points-wrap {
@@ -64,6 +65,7 @@
   margin-bottom: 12px;
   padding-top: 16px;
   border-top: 1px solid black;
+  letter-spacing: 2px;
 
   & .stats-wins {
     height: 40px;
@@ -76,6 +78,7 @@
   }
 
   & .stats-points {
+    position: relative;
     font-size: 2.5rem;
     font-weight: 800;
     margin-left: 100px;
@@ -83,7 +86,15 @@
     text-shadow: var(--text_shodow);
   }
 }
-& .stats-current_bonus {
+.fadeIn_points {
+  color: var(--black);
+  text-shadow: var(--text_shodow);
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: -40px;
+}
+.stats-current_bonus {
   font-size: 1.6rem;
   color: var(--yellow);
   text-shadow: var(--text_shodow);
