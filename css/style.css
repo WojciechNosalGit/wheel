@@ -15,6 +15,8 @@
   --yellow: #feac16;
   --yellow_light: #fbe148;
   --grey: #636e72;
+
+  --text_shadow: 0px 1px 3px var(--black);
 }
 
 html {
@@ -23,11 +25,11 @@ html {
 }
 
 body {
-  background-color: #f4f4f4;
-  background-image: linear-gradient(180deg, #16a085 20%, #f4d03f 100%);
+  background-color: #79def3;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
 #game {

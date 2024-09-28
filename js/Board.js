@@ -6,6 +6,7 @@ class Board {
       ".password_area-letters_wraper"
     );
     this.DOMCategory = document.querySelector(".password_area-category");
+    this.vowels = ["a", "ą", "e", "ę", "i", "o", "u", "ó", "y"];
 
     this.#board = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -17,6 +18,8 @@ class Board {
     this.#tempBoard = this.#board.map((row) => row.map((cell) => 0));
     this.activeClass = "active";
     this.usedLetterClass = "used_letter";
+
+    this.nameSpaceLength = 9;
   }
 
   drawEmptyPasswordArea() {
@@ -122,8 +125,8 @@ class Board {
     return count;
   }
 
-  showCategory(category) {
-    this.DOMCategory.textContent = `Kategoria: ${category}`;
+  showCategory(category, prefix = "Kategoria") {
+    this.DOMCategory.textContent = `${prefix}: ${category}`;
   }
 
   createDOMInputsForPlayers() {
@@ -133,7 +136,7 @@ class Board {
     this.#board.forEach((row, i) => {
       if (i === 0) return; //space for label
       row.forEach((cell, j) => {
-        if (j > 13) return; // only 13 charts
+        if (j > this.nameSpaceLength) return; // only 13 charts
 
         const div = this.DOMpasswordAreaContainer.querySelector(
           `[data-x='${i}'][data-y='${j}']`
@@ -159,26 +162,45 @@ class Board {
   }
 
   setFocusOnInput = () => {
-    const inputs = [
-      ...document.querySelectorAll(".password_area-letter input"),
-    ];
+    const inputs = [...document.querySelectorAll("input")];
 
+    inputs[0].focus(); //focus on first
     inputs.forEach((input, i) => {
-      inputs[0].focus(); //focus on first
-      input.addEventListener("keyup", (e) => {
-        const letter = e.target.value.toUpperCase();
-        if (e.keyCode === 8 && i > 0) {
-          //if backspace key and not start element
-
-          inputs[i - 1].value = "";
-          inputs[i - 1].focus();
-        } else if (e.keyCode === 13) {
-          //enter key
-          const nexRow = i + 13;
-          inputs[nexRow].focus();
-        } else if (e.keyCode !== 8 && i < inputs.length - 1) {
-          //otcher keys except backspace and enter
+      // Handling input (letters, numbers, etc.)
+      input.addEventListener("input", (e) => {
+        // If a letter is entered, move focus to the next input (unless we're at the last one)
+        if (e.inputType !== "deleteContentBackward" && i < inputs.length - 1) {
           inputs[i + 1].focus();
+        }
+      });
+
+      // Handling special keys such as Backspace and Enter
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && i > 0) {
+          // If Backspace is pressed and we are not at the first input, move focus backward
+          e.preventDefault();
+
+          if (i === inputs.length - 1 && inputs[i].value !== "") {
+            // last element
+            inputs[i].value = "";
+            inputs[i].focus();
+          } else {
+            inputs[i - 1].value = ""; // Clear the previous input
+            inputs[i - 1].focus(); // Move focus to the previous input
+          }
+        } else if (e.key === "Enter") {
+          // If Enter is pressed, move to the next row
+          e.preventDefault();
+          const nextRow = () => {
+            //Calculate the index of the next row
+            if (i < this.nameSpaceLength) return this.nameSpaceLength;
+            if (i < this.nameSpaceLength * 2) return this.nameSpaceLength * 2;
+            if (i < this.nameSpaceLength * 3) return this.nameSpaceLength * 3;
+          };
+
+          if (nextRow() < inputs.length) {
+            inputs[nextRow()].focus(); // Set focus to the first input in the next row
+          }
         }
       });
     });
@@ -242,7 +264,7 @@ class Board {
       input.dataset.y = elem.dataset.y;
       elem.appendChild(input);
     });
-    this.setFocusOnInput();
+    setTimeout(() => this.setFocusOnInput(), 0); // to make sure that DOM has fully loaded
   }
 
   isCorrectPassword() {
@@ -257,7 +279,6 @@ class Board {
         copyTempBoard[i][j] = input.value;
       });
     });
-
     return this.comparePasswords(copyTempBoard);
   }
 
@@ -266,7 +287,8 @@ class Board {
     boardArr.forEach((row, i) => {
       row.forEach((cell, j) => {
         if (cell === 0) return;
-        if (cell !== this.#board[i][j]) correct = false;
+        if (cell.toLowerCase() !== this.#board[i][j].toLowerCase())
+          correct = false;
         else if (correct === true) correct = true;
       });
     });
@@ -288,6 +310,25 @@ class Board {
         }
       });
     });
+  }
+
+  areOnlyVowelsLeft() {
+    for (let row = 0; row < this.#board.length; row++) {
+      for (let col = 0; col < this.#board[row].length; col++) {
+        const letter = this.#board[row][col];
+        const tempLetter = this.#tempBoard[row][col]; // Odgadnięta litera
+
+        // Sprawdźmy, czy to litera (string) i nie jest to spacja oraz nie została jeszcze odgadnięta
+        if (typeof letter === "string" && letter !== " " && tempLetter === 0) {
+          // Jeśli litera nie jest samogłoską, to nie wszystkie pozostałe są samogłoskami
+          if (!this.vowels.includes(letter.toLowerCase())) {
+            return false;
+          }
+        }
+      }
+    }
+    // Jeśli nie znaleźliśmy żadnej nieodgadniętej spółgłoski, zwracamy true
+    return true;
   }
 
   animateBoard(className) {

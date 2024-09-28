@@ -1,0 +1,84 @@
+#ranking {
+  background-color: var(--white);
+  height: 100vh;
+  width: 400px;
+  position: absolute;
+  top: 0;
+  right: -400px;
+  z-index: 1;
+  box-shadow: 1px 1px 10px var(--black);
+  padding: 68px 24px;
+  transition: all 0.2s ease-in-out;
+  text-shadow: var(--text_shadow);
+  letter-spacing: 2px;
+}
+
+.fadeIn_window {
+  right: 0px !important;
+}
+
+.shut_window {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  font-size: 3rem;
+  cursor: pointer;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: rotate(90deg);
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+.ranking-navigation {
+  cursor: pointer;
+  width: 100%;
+  height: 32px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  & div {
+    padding: 4px;
+    transition: color 200ms ease;
+
+    &:hover {
+      color: var(--yellow);
+    }
+  }
+}
+
+.active_button {
+  color: var(--yellow);
+}
+
+ul.ranking-list {
+  margin-left: 24px;
+  margin-top: 24px;
+}
+
+li.ranking-item {
+  font-size: 1.4rem;
+  list-style: none;
+  margin-bottom: 12px;
+}
+
+.name {
+  display: inline-block;
+  width: 80%;
+  color: var(--yellow);
+}
+.points {
+  margin-left: 24px;
+}

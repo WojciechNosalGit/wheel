@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Koło Fortuny Online</title>
+    <link rel="stylesheet" href="css/ranking.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/wheel.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/board.css" />
     <link rel="stylesheet" href="css/alphabet.css" />
@@ -14,27 +16,42 @@
   </head>
   <body>
     <div class="assets">
-      <audio
-        id="click_button"
-        src="assets/mixkit-cool-interface-click-tone-2568.wav"
-      ></audio>
-      <audio
-        id="win_round"
-        src="assets/mixkit-game-experience-level-increased-2062.wav"
-      ></audio>
+      <audio id="click_button" src="assets/click.wav"></audio>
+      <audio id="win_round" src="assets/win_round.wav"></audio>
       <audio
         id="wrong_letter"
         src="assets/mixkit-wrong-electricity-buzz-955.wav"
       ></audio>
+      <audio id="spin_wheel" src="assets/spin.wav"></audio>
+      <audio id="correct_quess" src="assets/wrightGuess.wav"></audio>
+      <audio id="game_over" src="assets/game_over.wav"></audio>
+      <audio id="win_game" src="assets/win_game.wav"></audio>
+      <audio id="only_vowels" src="assets/only_vowels.wav"></audio>
+      <audio id="wheel_result" src="assets/wheel_result.wav"></audio>
+      <audio id="broke" src="assets/broke.wav"></audio>
     </div>
     <header>
       <h1>Koło Fortuny</h1>
       <nav>
-        <!-- <a href="#">Zasady</a> -->
-        <!-- <a href="#">Ranking</a> -->
-        <!-- <a href="#">Ustawienia</a> -->
+        <div class="rules">Zasady</div>
+        <div class="ranking">Ranking</div>
       </nav>
     </header>
+
+    <section id="ranking">
+      <div class="shut_window">+</div>
+      <h1>Rakning</h1>
+      <div class="ranking-navigation">
+        <div id="solo">Solo</div>
+        <div id="multi">Wielu graczy</div>
+      </div>
+      <ul class="ranking-list">
+        <!-- <li class="ranking-item">
+          1: <span class="name">Wojtek</span>
+          <span class="points">23400</span> pkt
+        </li> -->
+      </ul>
+    </section>
 
     <section id="game">
       <section id="password_area">
@@ -122,15 +139,20 @@
           Potwierdź
         </button>
       </section>
+      <section class="wheel_container">
+        <canvas id="wheel" width="500" height="500"></canvas>
+        <div id="pointer"></div>
+      </section>
     </section>
+    <script src="js/Ranking.js"></script>
     <script src="js/Board.js"></script>
     <script src="js/Password.js"></script>
     <script src="js/Sound.js"></script>
-    <script src="js/Wheel.js"></script>
     <script src="js/Draw.js"></script>
     <script src="js/Player.js"></script>
     <script src="js/Result.js"></script>
     <script src="js/Stats.js"></script>
+    <script src="js/Wheel.js"></script>
     <script src="js/Game.js"></script>
     <script src="js/main.js"></script>
   </body>
