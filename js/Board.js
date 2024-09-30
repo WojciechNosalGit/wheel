@@ -18,6 +18,8 @@ class Board {
     this.#tempBoard = this.#board.map((row) => row.map((cell) => 0));
     this.activeClass = "active";
     this.usedLetterClass = "used_letter";
+
+    this.nameSpaceLength = 9;
   }
 
   drawEmptyPasswordArea() {
@@ -128,15 +130,13 @@ class Board {
   }
 
   createDOMInputsForPlayers() {
-    const nameSpaceLength = 9;
-
     // row1 text
     this.displayText(" Wpiszcie imiona", true, 0);
 
     this.#board.forEach((row, i) => {
       if (i === 0) return; //space for label
       row.forEach((cell, j) => {
-        if (j > nameSpaceLength) return; // only 13 charts
+        if (j > this.nameSpaceLength) return; // only 13 charts
 
         const div = this.DOMpasswordAreaContainer.querySelector(
           `[data-x='${i}'][data-y='${j}']`
@@ -168,20 +168,34 @@ class Board {
 
     inputs.forEach((input, i) => {
       inputs[0].focus(); //focus on first
-      input.addEventListener("keyup", (e) => {
-        const letter = e.target.value.toUpperCase();
-        if (e.keyCode === 8 && i > 0) {
-          //if backspace key and not start element
-
-          inputs[i - 1].value = "";
-          inputs[i - 1].focus();
-        } else if (e.keyCode === 13) {
-          //enter key
-          const nexRow = i + 13;
-          inputs[nexRow].focus();
-        } else if (e.keyCode !== 8 && i < inputs.length - 1) {
-          //otcher keys except backspace and enter
+      // Handling input (letters, numbers, etc.)
+      input.addEventListener("input", (e) => {
+        // If a letter is entered, move focus to the next input (unless we're at the last one)
+        if (e.inputType !== "deleteContentBackward" && i < inputs.length - 1) {
           inputs[i + 1].focus();
+        }
+      });
+
+      // Handling special keys such as Backspace and Enter
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && i > 0) {
+          // If Backspace is pressed and we are not at the first input, move focus backward
+          e.preventDefault();
+          inputs[i - 1].value = ""; // Clear the previous input
+          inputs[i - 1].focus(); // Move focus to the previous input
+        } else if (e.key === "Enter") {
+          // If Enter is pressed, move to the next row
+          e.preventDefault();
+          const nextRow = () => {
+            //Calculate the index of the next row
+            if (i < this.nameSpaceLength) return this.nameSpaceLength;
+            if (i < this.nameSpaceLength * 2) return this.nameSpaceLength * 2;
+            if (i < this.nameSpaceLength * 3) return this.nameSpaceLength * 3;
+          };
+
+          if (nextRow() < inputs.length) {
+            inputs[nextRow()].focus(); // Set focus to the first input in the next row
+          }
         }
       });
     });
