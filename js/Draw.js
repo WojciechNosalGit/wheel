@@ -148,6 +148,10 @@ class Draw {
     });
   }
 
+  hideAllCosonant() {
+    this.alfpabet.consonant.forEach((elem) => elem.classList.add("clicked"));
+  }
+
   resetAlphabet() {
     this.alfpabet.all.forEach((letter) => {
       letter.classList.remove("clicked");

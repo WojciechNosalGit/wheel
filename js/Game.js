@@ -151,22 +151,16 @@ class Game {
     } else return false;
   }
 
+  canBuyVowel() {
+    return this.vowelPrice <= this.activePlayer.points;
+  }
+
   buyVowel() {
     this.sound.play(this.sound.click);
     this.currentBonus = 0;
     this.draw.switchActiveAlphabet("vowel");
     this.draw.showButtons("none");
     this.addPoints(1, 0 - this.vowelPrice);
-  }
-
-  guessPassword() {
-    this.sound.play(this.sound.click);
-
-    this.board.changePasswordToInput();
-    this.draw.showButtons("none");
-    this.draw.hideElement(this.DOMAlphabet);
-    this.draw.hideElement(this.DOMPlayers);
-    this.draw.showElement(this.confirmPasswordBtn);
   }
 
   checkLetterInPass(e) {
@@ -183,11 +177,20 @@ class Game {
     }
   }
 
+  guessPassword() {
+    this.sound.play(this.sound.click);
+
+    this.board.changePasswordToInput();
+    this.draw.showButtons("none");
+    this.draw.hideElement(this.DOMAlphabet);
+    this.draw.hideElement(this.DOMPlayers);
+    this.draw.showElement(this.confirmPasswordBtn);
+  }
+
   handleCorrectGuess(letter) {
     this.sound.play(this.sound.correctLetter);
     const numberOfLetters = this.board.showLettersOnBoard(letter);
 
-    this.board.showLettersOnBoard(letter);
     //add points lettersnum x bonus
     this.addPoints(numberOfLetters, this.currentBonus);
 
@@ -197,12 +200,14 @@ class Game {
       : this.draw.showButtons(["spinWheel", "guessPassword"]);
     this.draw.switchActiveAlphabet("none");
     this.draw.displayBonus();
+
+    //only vovels left
+    if (this.board.areOnlyVowelsLeft()) {
+      this.draw.hideAllCosonant();
+    }
+
     //if win
     this.checkIfWin();
-  }
-
-  canBuyVowel() {
-    return this.vowelPrice <= this.activePlayer.points;
   }
 
   addPoints(number, bonus) {

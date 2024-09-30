@@ -6,6 +6,7 @@ class Board {
       ".password_area-letters_wraper"
     );
     this.DOMCategory = document.querySelector(".password_area-category");
+    this.vowels = ["a", "ą", "e", "ę", "i", "o", "u", "ó", "y"];
 
     this.#board = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -290,6 +291,25 @@ class Board {
         }
       });
     });
+  }
+
+  areOnlyVowelsLeft() {
+    for (let row = 0; row < this.#board.length; row++) {
+      for (let col = 0; col < this.#board[row].length; col++) {
+        const letter = this.#board[row][col];
+        const tempLetter = this.#tempBoard[row][col]; // Odgadnięta litera
+
+        // Sprawdźmy, czy to litera (string) i nie jest to spacja oraz nie została jeszcze odgadnięta
+        if (typeof letter === "string" && letter !== " " && tempLetter === 0) {
+          // Jeśli litera nie jest samogłoską, to nie wszystkie pozostałe są samogłoskami
+          if (!this.vowels.includes(letter.toLowerCase())) {
+            return false;
+          }
+        }
+      }
+    }
+    // Jeśli nie znaleźliśmy żadnej nieodgadniętej spółgłoski, zwracamy true
+    return true;
   }
 
   animateBoard(className) {
