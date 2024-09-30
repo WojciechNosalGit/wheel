@@ -1,1 +1,1 @@
-https://wojciechnosalgit.github.io/wheel/
+https://wojciechnosalgit.github.io/wheelOfFortune/
