@@ -59,11 +59,15 @@ class Game {
       this.createNewPlayerArea(e);
     });
     // SPIN
-    this.spinWheelBtn.addEventListener("click", () => this.spinWheel());
+    this.spinWheelBtn.addEventListener("mousedown", (e) => {
+      this.spinWheel();
+    });
     //BUY VOWEL
-    this.buyVowelBtn.addEventListener("click", () => this.buyVowel());
+    this.buyVowelBtn.addEventListener("mousedown", () => this.buyVowel());
     //GUESS PASSWORD
-    this.guessPasswordBtn.addEventListener("click", () => this.guessPassword());
+    this.guessPasswordBtn.addEventListener("mousedown", () =>
+      this.guessPassword()
+    );
     //CONFIRM PASSWORD
     this.confirmPasswordBtn.addEventListener("click", () => {
       this.confirmPassword();
@@ -118,6 +122,8 @@ class Game {
   async spinWheel() {
     this.sound.play(this.sound.click);
     this.wheel.showWheele();
+    this.draw.showButtons("none");
+
     try {
       const result = await this.wheel.spinWheel(); // waiting for result
       this.wheel.hideWheel();
@@ -127,7 +133,6 @@ class Game {
       this.currentBonus = result;
       this.draw.displayBonus(this.currentBonus);
       this.draw.switchActiveAlphabet("consonant");
-      this.draw.showButtons("none");
     } catch (error) {
       console.error("Error spinning wheel:", error);
     }
@@ -150,6 +155,7 @@ class Game {
     this.sound.play(this.sound.click);
     this.currentBonus = 0;
     this.draw.switchActiveAlphabet("vowel");
+    this.draw.showButtons("none");
     this.addPoints(1, 0 - this.vowelPrice);
   }
 
