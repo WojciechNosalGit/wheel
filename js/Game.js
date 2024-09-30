@@ -204,6 +204,10 @@ class Game {
     //only vovels left
     if (this.board.areOnlyVowelsLeft()) {
       this.draw.hideAllCosonant();
+      this.draw.showButtons(["buyVowel", "guessPassword"]);
+      setTimeout(() => {
+        this.sound.play(this.sound.onlyVowels);
+      }, 200);
     }
 
     //if win

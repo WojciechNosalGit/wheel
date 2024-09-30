@@ -6,6 +6,7 @@ class AudioControl {
     this.correctLetter = document.getElementById("correct_quess");
     this.spinWheel = document.getElementById("spin_wheel");
     this.gameOver = document.getElementById("game_over");
+    this.onlyVowels = document.getElementById("only_vowels");
   }
   play(sound) {
     sound.currentTime = 0;

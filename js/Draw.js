@@ -141,9 +141,11 @@ class Draw {
   }
 
   hideClickedLetter(letter) {
+    let clickedNum = 0;
     this.alfpabet.all.forEach((elem) => {
       if (elem.textContent === letter) {
         elem.classList.add("clicked");
+        clickedNum++;
       }
     });
   }
