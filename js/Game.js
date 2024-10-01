@@ -164,10 +164,11 @@ class Game {
   }
 
   checkLetterInPass(e) {
+    this.sound.play(this.sound.click);
     const letter = e.target.textContent;
 
-    this.sound.play(this.sound.click);
     this.draw.hideClickedLetter(letter);
+
     if (
       this.currentPassword.text.toUpperCase().includes(letter.toUpperCase())
     ) {
@@ -189,25 +190,38 @@ class Game {
 
   handleCorrectGuess(letter) {
     this.sound.play(this.sound.correctLetter);
+
     const numberOfLetters = this.board.showLettersOnBoard(letter);
+    const onlyVowelsLeft = this.board.areOnlyVowelsLeft();
+    const canBuyVowel = this.canBuyVowel();
 
     //add points lettersnum x bonus
     this.addPoints(numberOfLetters, this.currentBonus);
 
-    //if enougth money for vowel
-    this.canBuyVowel()
-      ? this.draw.showButtons("all")
-      : this.draw.showButtons(["spinWheel", "guessPassword"]);
-    this.draw.switchActiveAlphabet("none");
-    this.draw.displayBonus();
-
-    //only vovels left
-    if (this.board.areOnlyVowelsLeft()) {
+    if (this.board.areOnlyVowelsLeft() && this.canBuyVowel()) {
+      //yes yes
       this.draw.hideAllCosonant();
       this.draw.showButtons(["buyVowel", "guessPassword"]);
       setTimeout(() => {
         this.sound.play(this.sound.onlyVowels);
       }, 200);
+    } else if (this.board.areOnlyVowelsLeft() && !this.canBuyVowel()) {
+      //yes no
+      this.draw.hideAllCosonant();
+      this.draw.showButtons(["guessPassword"]);
+      setTimeout(() => {
+        this.sound.play(this.sound.onlyVowels);
+      }, 200);
+    } else if (!this.board.areOnlyVowelsLeft() && !this.canBuyVowel()) {
+      //no no
+      this.draw.showButtons(["spinWheel", "guessPassword"]);
+      this.draw.switchActiveAlphabet("none");
+    } else if (!this.board.areOnlyVowelsLeft() && this.canBuyVowel()) {
+      //no yes
+      this.draw.showButtons("all");
+      this.draw.switchActiveAlphabet("none");
+    } else {
+      console.log("can't find button");
     }
 
     //if win
@@ -237,25 +251,23 @@ class Game {
   }
 
   winRound() {
+    const multiPlayer = this.players.length > 1;
+
     this.board.animateBoard("blink");
     this.sound.play(this.sound.winRound);
     this.addPoints(1, this.pointsForRound);
     this.activePlayer.wins++;
-    if (this.players.length > 1) {
+    if (multiPlayer) {
       this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
     }
 
     // Message to display
     setTimeout(() => {
-      let message =
-        this.players.length > 1
-          ? `Rundę wygrywa      ${this.activePlayer.name}                   Masz ${this.activePlayer.points} pkt`
-          : `Brawo Twój wynik to ${this.activePlayer.points} pkt`;
+      let message = multiPlayer
+        ? `Rundę wygrywa      ${this.activePlayer.name}                   Masz ${this.activePlayer.points} pkt`
+        : `Brawo Twój wynik to ${this.activePlayer.points} pkt`;
       // if winning/final round
-      if (
-        this.activePlayer.wins === this.roundsToWin &&
-        this.players.length > 1
-      ) {
+      if (this.activePlayer.wins === this.roundsToWin && multiPlayer) {
         message = `Grę wygrywa        ${this.activePlayer.name}                Wynik: ${this.activePlayer.points} pkt`;
       }
       this.board.displayText(message, true);
@@ -319,9 +331,14 @@ class Game {
     this.draw.displayPoints(this.activePlayer.points);
 
     this.draw.displayBonus(0);
+
     this.draw.showButtons(["spinWheel", "guessPassword"]);
     this.draw.switchActiveAlphabet();
 
+    if (this.board.areOnlyVowelsLeft()) {
+      this.draw.hideAllCosonant();
+      this.draw.showButtons(["guessPassword"]);
+    }
     if (this.players.length === 1) return; // only for more players
     this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
   }

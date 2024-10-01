@@ -271,7 +271,7 @@ class Board {
           `.guessInput[data-x='${i}'][data-y='${j}']`
         );
         if (!input) return;
-        copyTempBoard[i][j] = input.value;
+        copyTempBoard[i][j] = input.value.toLowerCase();
       });
     });
 
