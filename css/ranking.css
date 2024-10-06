@@ -79,6 +79,11 @@ li.ranking-item {
   width: 80%;
   color: var(--yellow);
 }
+
+.rounds {
+  font-size: 1rem;
+  margin-left: 16px;
+}
 .points {
   margin-left: 24px;
 }
