@@ -417,4 +417,3 @@ class Game {
     this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
   }
 }
-const game = new Game();

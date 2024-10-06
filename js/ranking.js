@@ -3,7 +3,7 @@ class Ranking {
     this.soloRankDOM = document.getElementById("solo");
     this.multiRankDOM = document.getElementById("multi");
     this.rankingBtn = document.querySelector(".ranking");
-    this.shutBtn = document.querySelector(".shut_window");
+    this.shutBtn = document.querySelector(".shut_ranking");
     this.windowRanking = document.getElementById("ranking");
 
     this.sound = new AudioControl();
@@ -29,11 +29,13 @@ class Ranking {
     });
 
     this.rankingBtn.addEventListener("click", () => {
-      this.windowRanking.classList.add("fadeIn_window");
+      this.sound.play(this.sound.click);
+      this.windowRanking.classList.add("fadeIn_ranking");
     });
 
     this.shutBtn.addEventListener("click", () => {
-      this.windowRanking.classList.remove("fadeIn_window");
+      this.sound.play(this.sound.click);
+      this.windowRanking.classList.remove("fadeIn_ranking");
     });
   }
 
