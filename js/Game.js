@@ -34,14 +34,16 @@ class Game {
     this.DOMAlphabet = document.getElementById("alphabet");
     this.DOMCategory = document.querySelector(".password_area-category");
 
-    this.board.drawEmptyPasswordArea(); // random password in future
     this.init();
     this.initEvents();
   }
 
   init() {
+    this.board.drawEmptyPasswordArea();
+
     this.draw.hideElement(this.DOMAlphabet);
     this.draw.hideElement(this.DOMPlayers);
+    this.draw.hideElement(this.DOMCategory);
     this.draw.hideElement(this.startBtn);
     this.draw.hideElement(this.confirmPasswordBtn);
     this.draw.hideElement(this.nextRoundBTN);
@@ -357,7 +359,6 @@ class Game {
     this.draw.showElement(this.addPlayersBtn);
     this.draw.hideElement(this.DOMAlphabet);
     this.draw.hideElement(this.DOMPlayers);
-    this.draw.hideElement(this.DOMCategory);
   }
 
   nextPlayer() {
