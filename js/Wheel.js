@@ -2,24 +2,17 @@ class Wheel {
   constructor(canvasId, wheeleResultElement, wheelContainer) {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
-<<<<<<< HEAD
     (this.letterEL = "Litera"),
       (this.brokeEL = "Bankrut"),
       (this.stopEL = "stop");
     this.segments = [
       2000,
       150,
-=======
-    this.segments = [
-      2000,
-      1500,
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
       200,
       350,
       550,
       250,
       500,
-<<<<<<< HEAD
       this.stopEL,
       400,
       1200,
@@ -32,20 +25,6 @@ class Wheel {
       200,
       1500,
       this.brokeEL,
-=======
-      "STOP",
-      400,
-      150,
-      500,
-      200,
-      800,
-      1000,
-      "STOP",
-      150,
-      200,
-      300,
-      "Bankrut",
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
       500,
       200,
       400,
@@ -81,10 +60,7 @@ class Wheel {
     this.segmentAngle = (2 * Math.PI) / this.segments.length;
     this.currentRotation = 0;
     this.totalRotation = 0;
-<<<<<<< HEAD
     this.selectedSegmentIndex = null; // To store the index of the selected segment
-=======
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
 
     this.sound = new AudioControl();
 
@@ -97,7 +73,6 @@ class Wheel {
       this.ctx.beginPath();
       this.ctx.moveTo(250, 250); // Center of the wheele
       this.ctx.arc(250, 250, 250, angle, angle + this.segmentAngle);
-<<<<<<< HEAD
 
       // Check if this is the selected segment
       if (i === this.selectedSegmentIndex) {
@@ -106,9 +81,6 @@ class Wheel {
         this.ctx.fillStyle = this.colors[i]; // Default color for others
       }
 
-=======
-      this.ctx.fillStyle = this.colors[i];
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
       this.ctx.fill();
       this.ctx.stroke();
 
@@ -117,7 +89,6 @@ class Wheel {
       this.ctx.translate(250, 250);
       this.ctx.rotate(angle + this.segmentAngle / 2);
       this.ctx.textAlign = "center";
-<<<<<<< HEAD
 
       // Check if this is the selected segment
       if (i === this.selectedSegmentIndex) {
@@ -126,18 +97,10 @@ class Wheel {
         this.segments[i] === this.brokeEL ||
         this.segments[i] === this.stopEL
       ) {
-=======
-      // Color
-      if (this.segments[i] === "Bankrut" || this.segments[i] === "STOP") {
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
         this.ctx.fillStyle = "white";
       } else {
         this.ctx.fillStyle = "#000"; // Czarny dla innych wartości
       }
-<<<<<<< HEAD
-
-=======
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
       this.ctx.font = "30px SuperPlayful";
       this.drawTextWithSpacing(this.segments[i].toString(), 130, 10, 12);
       this.ctx.restore();
@@ -146,12 +109,8 @@ class Wheel {
 
   drawTextWithSpacing(text, x, y, spacing) {
     let currentX = x;
-<<<<<<< HEAD
     if (text === this.brokeEL) return this.ctx.fillText(text, 170, 10);
     if (text === this.letterEL) return this.ctx.fillText(text, 170, 10);
-=======
-    if (text === "Bankrut") return this.ctx.fillText(text, 170, 10);
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
     for (let i = 0; i < text.length; i++) {
       this.ctx.fillText(text[i], currentX, y);
       currentX += this.ctx.measureText(text[i]).width + spacing; // Add letter width + spacing
@@ -161,18 +120,11 @@ class Wheel {
   showWheele() {
     this.wheelContainer.classList.toggle("fadeIn_wheele");
   }
-<<<<<<< HEAD
 
   hideWheel(time) {
     setTimeout(() => {
       this.wheelContainer.classList.toggle("fadeIn_wheele");
     }, time);
-=======
-  hideWheel() {
-    setTimeout(() => {
-      this.wheelContainer.classList.toggle("fadeIn_wheele");
-    }, 1200);
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
   }
 
   spinWheel() {
@@ -211,12 +163,9 @@ class Wheel {
         } else {
           this.isSpinning = false;
           const result = this.showResult();
-<<<<<<< HEAD
           //animation when result
           this.blinkSegment(this.selectedSegmentIndex); // Trigger blinking
           this.sound.play(this.sound.wheelResult);
-=======
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
           resolve(result); // Return result
         }
       };
@@ -231,7 +180,6 @@ class Wheel {
       Math.floor((2 * Math.PI - normalizedAngle) / this.segmentAngle) %
       this.segments.length;
 
-<<<<<<< HEAD
     this.selectedSegmentIndex = segmentIndex; // Save the selected segment index
     this.drawWheel(); // Redraw the wheel with the highlighted segment
 
@@ -262,13 +210,5 @@ class Wheel {
     };
 
     blink();
-=======
-    const result = () => {
-      if (this.segments[segmentIndex] === "Bankrut") return -1;
-      if (this.segments[segmentIndex] === "STOP") return 0;
-      return this.segments[segmentIndex];
-    };
-    return result();
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
   }
 }

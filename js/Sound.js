@@ -8,11 +8,8 @@ class AudioControl {
     this.spinWheel = document.getElementById("spin_wheel");
     this.gameOver = document.getElementById("game_over");
     this.onlyVowels = document.getElementById("only_vowels");
-<<<<<<< HEAD
     this.wheelResult = document.getElementById("wheel_result");
     this.broke = document.getElementById("broke");
-=======
->>>>>>> 1c9ce4a6a5a6da0d8e7878014fc42b60df6c3fb0
   }
   play(sound) {
     sound.currentTime = 0;

@@ -9,15 +9,14 @@
   box-shadow: 1px 1px 10px var(--black);
   padding: 68px 24px;
   transition: all 0.2s ease-in-out;
-  text-shadow: var(--text_shadow);
   letter-spacing: 2px;
 }
 
-.fadeIn_window {
+.fadeIn_ranking {
   right: 0px !important;
 }
 
-.shut_window {
+.shut_ranking {
   width: 40px;
   height: 40px;
   display: flex;
@@ -79,6 +78,13 @@ li.ranking-item {
   width: 80%;
   color: var(--yellow);
 }
+
+.rounds {
+  font-size: 1rem;
+  margin-left: 16px;
+  font-weight: 100;
+}
 .points {
   margin-left: 24px;
+  font-weight: 100;
 }

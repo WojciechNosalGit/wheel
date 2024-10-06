@@ -45,11 +45,6 @@ class Game {
     this.draw.hideElement(this.startBtn);
     this.draw.hideElement(this.confirmPasswordBtn);
     this.draw.hideElement(this.nextRoundBTN);
-    //take ranking from LocaleStore
-    this.ranking.renderHighScores(
-      this.activePlayer.name,
-      this.activePlayer.points
-    );
   }
 
   initEvents() {
@@ -272,11 +267,12 @@ class Game {
     this.sound.play(this.sound.winRound);
     this.addPoints(1, this.pointsForRound);
     this.activePlayer.wins++;
+
     if (multiPlayer) {
       this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
     }
 
-    if (this.players.length === 1) {
+    if (!multiPlayer) {
       const activePlayer = this.players[this.activePlayerIdx];
       activePlayer.setChanses(this.chansesForSinglePlayer);
       this.draw.dispalyHearts(activePlayer.chanses);
@@ -290,10 +286,12 @@ class Game {
       // if winning/final round
       if (this.activePlayer.wins === this.roundsToWin && multiPlayer) {
         this.sound.play(this.sound.winGame);
+
         // Save score when game is won
         this.ranking.saveHighScore(
           this.activePlayer.name,
           this.activePlayer.points,
+          0,
           false
         );
 
@@ -350,6 +348,7 @@ class Game {
     this.ranking.saveHighScore(
       this.activePlayer.name,
       this.activePlayer.points,
+      this.activePlayer.wins,
       true
     );
     this.board.displayText(message, true);
@@ -418,4 +417,3 @@ class Game {
     this.draw.displayNumberOfWins(this.activePlayer.wins, this.roundsToWin);
   }
 }
-const game = new Game();

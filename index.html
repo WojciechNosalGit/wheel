@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Koło Fortuny Online</title>
     <link rel="stylesheet" href="css/ranking.css" />
+    <link rel="stylesheet" href="css/rules.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/wheel.css" />
     <link rel="stylesheet" href="css/header.css" />
@@ -38,8 +39,69 @@
       </nav>
     </header>
 
+    <section id="rules">
+      <div class="shut_rules">+</div>
+      <h1>Zasady Gry "Koło Fortuny"</h1>
+      <p>Gra jest dostępna dla 1 do 4 graczy.</p>
+      <h2>Przebieg Gry</h2>
+      <p>Rundę rozpoczynasz od zakręcenia kołem.</p>
+      <p>
+        Wyświetlony rezultat to bonus przyznawany za każdą odgadniętą literę.
+      </p>
+      <p>
+        Jeśli wypadnie <span class="important">"Bankrut"</span>, tracisz
+        wszystkie pieniądze, a kolej przechodzi na następnego gracza. W trybie
+        solo tracisz wszystkie pieniądze i jedną szansę.
+      </p>
+      <p>
+        Jeśli wypadnie <span class="important">"Stop"</span>, kolej przechodzi
+        na następnego gracza, lub tracisz szansę w trybie solo.
+      </p>
+      <p>
+        <span class="important"
+          >Tylko po każdej poprawnej odpowiedzi można kupić samogłoskę.</span
+        >
+        Samogłoska kosztuje <span class="important">1500 pkt</span>.
+      </p>
+      <h2>Odgadywanie Hasła</h2>
+      <p>
+        Hasło można odgadywać w każdym momencie. Jeśli odgadniesz je poprawnie,
+        wygrywasz rundę
+        <span class="image"><img src="assets/star.png" alt="star" /></span>. i
+        otrzymujemy <span class="important">1000 pkt</span>.
+      </p>
+      <p>Jeśli odgadniesz źle, kolej przechodzi na następnego gracza.</p>
+      <h2>Tryb Solo</h2>
+      <p>
+        Po każdym odgadnięciu hasła otrzymujesz na nowo 5 szans
+        <span class="image"><img src="assets/heart.png" alt="heart" /></span>.
+      </p>
+      <p>
+        Za każdy zły wybór tracisz szansę<span class="image"
+          ><img src="assets/heart.png" alt="heart" /></span
+        >.
+      </p>
+      <p>
+        Do rankingu można trafić po zakończonej grze, czyli jeśli stracisz
+        wszystkie szanse
+        <span class="image"><img src="assets/heart.png" alt="heart" /></span>.
+      </p>
+      <h2>Zwycięstwo w Grze</h2>
+      <p>
+        Grę wygrywa osoba, która jako pierwsza odgadnie 3 hasła
+        <span class="image"><img src="assets/star.png" alt="star" /></span
+        ><span class="image"><img src="assets/star.png" alt="star" /></span
+        ><span class="image"><img src="assets/star.png" alt="star" /></span>.
+      </p>
+      <p>
+        <span class="important"
+          >Do rankingu zaliczają się tylko zwycięzcy gry.</span
+        >
+      </p>
+    </section>
+
     <section id="ranking">
-      <div class="shut_window">+</div>
+      <div class="shut_ranking">+</div>
       <h1>Rakning</h1>
       <div class="ranking-navigation">
         <div id="solo">Solo</div>
@@ -48,6 +110,7 @@
       <ul class="ranking-list">
         <!-- <li class="ranking-item">
           1: <span class="name">Wojtek</span>
+           <span class="rounds">3</span>
           <span class="points">23400</span> pkt
         </li> -->
       </ul>
@@ -144,10 +207,11 @@
         <div id="pointer"></div>
       </section>
     </section>
+    <script src="js/Sound.js"></script>
     <script src="js/Ranking.js"></script>
+    <script src="js/Rules.js"></script>
     <script src="js/Board.js"></script>
     <script src="js/Password.js"></script>
-    <script src="js/Sound.js"></script>
     <script src="js/Draw.js"></script>
     <script src="js/Player.js"></script>
     <script src="js/Result.js"></script>
