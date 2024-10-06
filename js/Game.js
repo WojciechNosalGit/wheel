@@ -12,7 +12,7 @@ class Game {
       category: "",
       quote: "",
     };
-    this.roundsToWin = 1;
+    this.roundsToWin = 3;
     this.chansesForSinglePlayer = 5;
     this.currentBonus = 0;
     this.activePlayerIdx = 0;
@@ -358,6 +358,7 @@ class Game {
     this.draw.showElement(this.addPlayersBtn);
     this.draw.hideElement(this.DOMAlphabet);
     this.draw.hideElement(this.DOMPlayers);
+    this.draw.hideElement(this.DOMCategory);
   }
 
   nextPlayer() {
