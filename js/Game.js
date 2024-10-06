@@ -129,6 +129,7 @@ class Game {
     this.sound.play(this.sound.click);
     this.wheel.showWheele();
     this.draw.showButtons("none");
+    this.draw.displayBonus(0);
 
     try {
       const result = await this.wheel.spinWheel(); // waiting for result
